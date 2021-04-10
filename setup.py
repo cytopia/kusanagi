@@ -60,7 +60,7 @@ setup(
         "Source Code": "https://github.com/cytopia/kusanagi",
         "Bug Tracker": "https://github.com/cytopia/kusanagi/issues",
     },
-    python_requires=">=3.5",
+    python_requires=">=3.6",
     classifiers=[
         # https://pypi.org/classifiers/
         #

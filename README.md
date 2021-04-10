@@ -51,6 +51,12 @@ pip install kusanagi
 ```
 
 
+## Requirements
+
+* Python >= 3.6
+* [requirements.txt](requirements.txt)
+
+
 
 ## Usage
 
