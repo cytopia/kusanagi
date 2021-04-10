@@ -2,9 +2,6 @@
 
 from typing import List, Dict, Any
 
-import os
-import pathlib
-
 from .validator import VALIDATOR
 from ...permutator import permutate_variables
 from ...permutator import obfuscate_payloads

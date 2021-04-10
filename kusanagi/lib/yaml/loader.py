@@ -25,10 +25,10 @@ def _load(path: PurePath) -> Dict[Any, Any]:
         file_p = open(os.fspath(path))
     except FileNotFoundError as err_file:
         error = os.strerror(errno.ENOENT)
-        raise OSError(f"[ERROR] File does not exist: {path}\n{error}")
+        raise OSError(f"[ERROR] File does not exist: {path}\n{error}") from err_file
     except PermissionError as err_perm:
         error = os.strerror(errno.EACCES)
-        raise OSError(f"[ERROR] No permission to load file form: {path}\n{error}")
+        raise OSError(f"[ERROR] No permission to load file form: {path}\n{error}") from err_perm
     else:
         try:
             return dict(yaml.safe_load(file_p))

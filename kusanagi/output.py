@@ -1,12 +1,13 @@
 """Module to output the payloads on the command line."""
 
 from typing import List, Optional, Any
-from .core.typing.ds_payload import DsPayload
-from .core.encoder import encode
-
 import sys
 import re
+
 from termcolor import cprint
+
+from .core.typing.ds_payload import DsPayload
+from .core.encoder import encode
 
 
 # --------------------------------------------------------------------------------------------------
@@ -17,10 +18,10 @@ def output(
 ) -> None:
     """Output payloads based on users choice."""
     if quick:
-        for i in range(len(payloads)):
-            _print_payload(payloads[i], addr, port, encoders, i)
+        for i, _ in enumerate(payloads):
+            _print_payload(payloads[i], encoders, i)
     else:
-        for i in range(len(payloads)):
+        for i, _ in enumerate(payloads):
             _print_payload_verbose(payloads[i], addr, port, encoders, i)
 
 
@@ -50,8 +51,6 @@ class Out:
 
 def _print_payload(
     payload: DsPayload,
-    addr: str,
-    port: str,
     encoders: List[str],
     index: int,
 ) -> None:
