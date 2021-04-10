@@ -2,12 +2,13 @@
 
 from typing import Dict, Any
 
+from pathlib import PurePath
 import errno
 import os
 import yaml
 
 
-def _load(path: str) -> Dict[Any, Any]:
+def _load(path: PurePath) -> Dict[Any, Any]:
     """Load yaml file by path and return it as Python dictionary.
 
     Args:
@@ -21,7 +22,7 @@ def _load(path: str) -> Dict[Any, Any]:
         KeyError: If file cannot be parsed.
     """
     try:
-        file_p = open(path)
+        file_p = open(os.fspath(path))
     except FileNotFoundError as err_file:
         error = os.strerror(errno.ENOENT)
         raise OSError(f"[ERROR] File does not exist: {path}\n{error}")
