@@ -20,10 +20,19 @@ class DsPayloadFilter(DsBaseFilter):
         commands: List[str],
         proto: str,
         direction: str,
-        encoders: List[str]
+        encoders: List[str],
     ) -> None:
         """Constructor."""
         # Initialize parent class
         super(DsPayloadFilter, self).__init__(
-            exe, cmd_exe, shell, cmd_shell, sorted(shells), sorted(os), commands, proto, direction, encoders
+            exe,
+            cmd_exe,
+            shell,
+            cmd_shell,
+            sorted(shells),
+            sorted(os),
+            commands,
+            proto,
+            direction,
+            encoders,
         )

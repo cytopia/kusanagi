@@ -80,7 +80,7 @@ def _get_payload_from_item(item: Dict[str, List]) -> DsPayload:
         item["filters"]["commands"],
         item["filters"]["proto"],
         item["filters"]["direction"],
-        item["filters"]["encoders"]
+        item["filters"]["encoders"],
     )
     # Return Payload
     return DsPayload(

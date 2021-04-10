@@ -66,7 +66,7 @@ class DsBaseFilter:
         commands: List[str],
         proto: str,
         direction: str,
-        encoders: List[str]
+        encoders: List[str],
     ) -> None:
         self.__exe = exe
         self.__shell = shell

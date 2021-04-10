@@ -48,7 +48,7 @@ class DsPayloadFilter:
         commands: List[str],
         proto: str,
         direction: str,
-        obfuscator: List[str]
+        obfuscator: List[str],
     ) -> None:
         self.__exe = exe
         self.__shells = shells

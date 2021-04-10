@@ -13,11 +13,7 @@ from termcolor import cprint
 # Public module functions
 # --------------------------------------------------------------------------------------------------
 def output(
-    payloads: List[DsPayload],
-    addr: str,
-    port: str,
-    encoders: List[str],
-    quick: bool
+    payloads: List[DsPayload], addr: str, port: str, encoders: List[str], quick: bool
 ) -> None:
     """Output payloads based on users choice."""
     if quick:
@@ -33,6 +29,7 @@ def output(
 # --------------------------------------------------------------------------------------------------
 class Out:
     """stdout, stderr print class with color support."""
+
     def __init__(self, colored: bool) -> None:
         self.__colored = colored
 
@@ -95,12 +92,12 @@ def _print_payload_verbose(
 
     # Print headline
     p.stderr("")
-    p.stderr("-"*80)
+    p.stderr("-" * 80)
     p.stderr("[", end="")
     p.stderr(f"{index}", "blue", end="")
     p.stderr("] ", end="")
     p.stderr(f"{payload.name}", "yellow")
-    p.stderr("-"*80)
+    p.stderr("-" * 80)
 
     # description/info
     p.stderr(f"{payload.desc}", "yellow")
@@ -154,7 +151,7 @@ def _print_payload_verbose(
         p.stderr("")
     for i in range(total):
         p.stderr(f"{payload.filters.os[i]}", "blue", end="")
-        if i < total-1:
+        if i < total - 1:
             p.stderr(", ", end="")
         else:
             p.stderr("")
@@ -166,7 +163,7 @@ def _print_payload_verbose(
         p.stderr("")
     for i in range(total):
         p.stderr(f"{payload.filters.shells[i]}", "blue", end="")
-        if i < total-1:
+        if i < total - 1:
             p.stderr(", ", end="")
         else:
             p.stderr("")
@@ -178,7 +175,7 @@ def _print_payload_verbose(
         p.stderr("")
     for i in range(total):
         p.stderr(f"{payload.filters.commands[i]}", "blue", end="")
-        if i < total-1:
+        if i < total - 1:
             p.stderr(" and ", end="")
         else:
             p.stderr("")
@@ -227,7 +224,7 @@ def _print_payload_verbose(
         p.stderr("output encoder: ", end="")
         for i in range(total):
             p.stderr(f"{encoders[i]}", "green", end="")
-            if i < total-1:
+            if i < total - 1:
                 p.stderr(" -> ", end="")
             else:
                 p.stderr("")
@@ -240,45 +237,45 @@ def _print_payload_verbose(
     p.stdout(data, "red")
     p.stderr("")
 
-    #p.stderr(payload.filters.exe, "blue")
+    # p.stderr(payload.filters.exe, "blue")
 
-    #print("", file=sys.stderr)
-    #print("", file=sys.stderr)
-    #print("-"*80, file=sys.stderr)
-    #print(f"[{index}] {payload.name}", file=sys.stderr)
-    #cprint(f"{index}", "blue", end="", file=sys.stderr)
-    #print("-"*80, file=sys.stderr)
-    #print(f"desc: {payload.desc}", file=sys.stderr)
+    # print("", file=sys.stderr)
+    # print("", file=sys.stderr)
+    # print("-"*80, file=sys.stderr)
+    # print(f"[{index}] {payload.name}", file=sys.stderr)
+    # cprint(f"{index}", "blue", end="", file=sys.stderr)
+    # print("-"*80, file=sys.stderr)
+    # print(f"desc: {payload.desc}", file=sys.stderr)
 
-    #print(f"target: {addr}:{port}", file=sys.stderr)
+    # print(f"target: {addr}:{port}", file=sys.stderr)
 
-    #print(f"filters:", file=sys.stderr)
-    #print(f"  exe:        {payload.filters.exe}", file=sys.stderr)
-    #print("  shells:     {}".format(', '.join(payload.filters.shells)), file=sys.stderr)
-    #print("  os:         {}".format(', '.join(payload.filters.os)), file=sys.stderr)
-    #print("  commands:   {}".format(', '.join(payload.filters.commands)), file=sys.stderr)
-    #print(f"  proto:      {payload.filters.proto}", file=sys.stderr)
-    #print(f"  direction:  {payload.filters.direction}", file=sys.stderr)
+    # print(f"filters:", file=sys.stderr)
+    # print(f"  exe:        {payload.filters.exe}", file=sys.stderr)
+    # print("  shells:     {}".format(', '.join(payload.filters.shells)), file=sys.stderr)
+    # print("  os:         {}".format(', '.join(payload.filters.os)), file=sys.stderr)
+    # print("  commands:   {}".format(', '.join(payload.filters.commands)), file=sys.stderr)
+    # print(f"  proto:      {payload.filters.proto}", file=sys.stderr)
+    # print(f"  direction:  {payload.filters.direction}", file=sys.stderr)
     ##print(f"  obfuscated: {payload.filters.obfuscated}", file=sys.stderr)
 
-    #print("badchars: {}".format(_get_badchars(payload.payload)), file=sys.stderr)
-    #print("size: {} bytes".format(len(payload.payload)), file=sys.stderr)
+    # print("badchars: {}".format(_get_badchars(payload.payload)), file=sys.stderr)
+    # print("size: {} bytes".format(len(payload.payload)), file=sys.stderr)
 
-    #print(f"construction:", file=sys.stderr)
-    #for step in payload.original:
+    # print(f"construction:", file=sys.stderr)
+    # for step in payload.original:
     #    print(f"  - {step}", file=sys.stderr)
 
-    #print(f"output encoders:", file=sys.stderr)
-    #for encoder in encoders:
+    # print(f"output encoders:", file=sys.stderr)
+    # for encoder in encoders:
     #    print(f"  - {encoder}", file=sys.stderr)
 
-    #cprint("options:", "grey", file=sys.stderr)
-    #cprint(f"  use '-q {index}' or '--query {index}' to only show this payload", "grey", file=sys.stderr)
-    #cprint(f"  use '-c {index}' or '--copy {index}'  to copy payload to clipboard", "grey", file=sys.stderr)
-    #cprint(f"  use '-c'    or '--copy'     to copy last payload to clipboard", "grey", file=sys.stderr)
+    # cprint("options:", "grey", file=sys.stderr)
+    # cprint(f"  use '-q {index}' or '--query {index}' to only show this payload", "grey", file=sys.stderr)
+    # cprint(f"  use '-c {index}' or '--copy {index}'  to copy payload to clipboard", "grey", file=sys.stderr)
+    # cprint(f"  use '-c'    or '--copy'     to copy last payload to clipboard", "grey", file=sys.stderr)
 
-    #print("", file=sys.stderr)
-    #print(data)
+    # print("", file=sys.stderr)
+    # print(data)
 
 
 def _get_badchars(data: str) -> str:

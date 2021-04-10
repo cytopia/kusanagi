@@ -134,7 +134,7 @@ def get_args() -> argparse.Namespace:
         type=str,
         help="""Address to listen or connect to.
 
-"""
+""",
     )
     cmd_positional.add_argument(
         "port",
@@ -257,25 +257,25 @@ of payload to copy to clipboard.
 """,
     )
 
-#
-# TODO:
-# FIXME: -o/--obfuscate   Run the Fun!
+    #
+    # TODO:
+    # FIXME: -o/--obfuscate   Run the Fun!
 
-# TODO:
-# FIXME: -n/--noob   Turn on noob mode
-#
-#
-# -q [no] o <OS>, [<OS>]
-# -q p/proto <PROTO>
-# -q d/dir   <DIRECTION>
-# -q e/exe   <EXECUTABLE>
-# -q s/shell <SHELL>
-# -q c/cmd   <COMMANDS>
-# -q b/bad   <BADCHARS>
+    # TODO:
+    # FIXME: -n/--noob   Turn on noob mode
+    #
+    #
+    # -q [no] o <OS>, [<OS>]
+    # -q p/proto <PROTO>
+    # -q d/dir   <DIRECTION>
+    # -q e/exe   <EXECUTABLE>
+    # -q s/shell <SHELL>
+    # -q c/cmd   <COMMANDS>
+    # -q b/bad   <BADCHARS>
 
-# -o/--obfuscate
-# -e/--encode
-# -n/--noob
+    # -o/--obfuscate
+    # -e/--encode
+    # -n/--noob
 
     # --------------------------------------------------------------------------
     # Command parser: misc arguments

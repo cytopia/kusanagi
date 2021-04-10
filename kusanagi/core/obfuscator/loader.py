@@ -11,9 +11,7 @@ from ...lib.template import get_template_dir
 
 
 # Available obfuscator files
-OBFUSCATORS = [
-    "cmd.yml"
-]
+OBFUSCATORS = ["cmd.yml"]
 
 
 def _load() -> List[Dict[Any, Any]]:

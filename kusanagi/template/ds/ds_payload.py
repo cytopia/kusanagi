@@ -18,6 +18,7 @@ class DsPayload:
     def desc(self) -> str:
         """Returns payload description."""
         return self.__desc
+
     @property
     def group(self) -> str:
         """Returns payload group."""
@@ -48,7 +49,7 @@ class DsPayload:
         group: str,
         filters: DsPayloadFilter,
         payload: str,
-        original: List[str]
+        original: List[str],
     ) -> None:
         self.__name = name
         self.__desc = desc

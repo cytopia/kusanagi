@@ -47,7 +47,7 @@ def load(addr: str, port: str) -> List[DsPayload]:
                     permutation["filters"]["commands"],
                     permutation["filters"]["proto"],
                     permutation["filters"]["direction"],
-                    permutation["filters"]["obfuscator"]
+                    permutation["filters"]["obfuscator"],
                 )
 
                 # Append to DsPayload data structure
