@@ -18,43 +18,6 @@ DEF_NAME = "kusanagi"
 DEF_DESC = (
     "Kusanagi is a bind and reverse shell payload generator with obfuscation and badchar support."
 )
-DEF_VERSION = "0.0.2"
+DEF_VERSION = "0.0.3"
 DEF_AUTHOR = "cytopia"
 DEF_GITHUB = "https://github.com/cytopia/kusanagi"
-
-
-# List of common badchars
-BADCHARS = [
-    "!",
-    "",
-    "#",
-    "$",
-    "%",
-    "&",
-    "'",
-    "(",
-    ")",
-    "*",
-    "+",
-    ",",
-    "-",
-    ".",
-    "/",
-    ":",
-    ";",
-    "<",
-    "=",
-    ">",
-    "?",
-    "@",
-    "[",
-    "\\",
-    "]",
-    "_",
-    "`",
-    "{",
-    "|",
-    "}",
-    "~",
-    '"',
-]

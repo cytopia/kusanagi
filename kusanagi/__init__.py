@@ -10,16 +10,11 @@ import pathlib
 
 from .args import *
 from .lib.clipboard import copy_to_clipboard
-from .template import *
 from .output import output
-from .filter import filter_os
-from .filter import filter_badchars
-from .filter import filter_executables
-from .filter import filter_shells
-from .filter import filter_maxlen
-from .sorter import sort_by_length
 
 from .core.payload.cmd import get_payloads
+from .core.filter import *
+from .core.sorter import *
 
 
 def main() -> None:
@@ -57,6 +52,9 @@ def main() -> None:
         copy_to_clipboard(payloads[index].payload)
     except IndexError:
         print(f"[ERROR] payload with index {index} does not exist", file=sys.stderr)
+        sys.exit(1)
+    except OSError as error:
+        print(f"[ERROR] No clipboard mechanism available on your system\n{error}", file=sys.stderr)
         sys.exit(1)
     else:
         payload = payloads[index]

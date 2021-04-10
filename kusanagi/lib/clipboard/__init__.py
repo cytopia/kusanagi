@@ -15,5 +15,12 @@ import pyperclip  # type: ignore
 
 
 def copy_to_clipboard(data: str) -> None:
-    """Copy text to clipboard."""
-    pyperclip.copy(data)
+    """Copy text to clipboard.
+
+    Raises:
+        OSError if clipboard fails.
+    """
+    try:
+        pyperclip.copy(data)
+    except pyperclip.PyperclipException as error:
+        raise OSError(error) from error

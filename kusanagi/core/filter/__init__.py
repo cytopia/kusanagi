@@ -1,6 +1,7 @@
 """Module to filter payloads on their given options."""
+
 from typing import List
-from .template.ds.ds_payload import DsPayload
+from ..typing.ds_payload import DsPayload
 
 
 def filter_executables(payloads: List[DsPayload], executables: List[str]) -> List[DsPayload]:
@@ -16,7 +17,7 @@ def filter_executables(payloads: List[DsPayload], executables: List[str]) -> Lis
 
 
 def filter_shells(payloads: List[DsPayload], shells: List[str]) -> List[DsPayload]:
-    """Returns only payloads for given list of shells."""
+    """Returns only payloads which work when executed on specific underlying shells."""
     if not shells:
         return payloads
 
