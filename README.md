@@ -13,6 +13,7 @@
 
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/linting/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=linting)
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/building/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=building)
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/testing/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=testing)
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/black/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=black)
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/mypy/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=mypy)
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/pylint/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=pylint)

@@ -13,7 +13,7 @@ PYTHON_VERSION = 3.7
 # -------------------------------------------------------------------------------------------------
 # Default configuration
 # -------------------------------------------------------------------------------------------------
-.PHONY: help lint code autoformat build clean docker-build docker-rebuild docker-tag
+.PHONY: help lint code test autoformat build clean docker-build docker-rebuild docker-tag
 SHELL := /bin/bash
 
 NAME = $(shell grep -E '^[[:space:]]*name' setup.py  | awk -F'"' '{print $$2}' | sed 's/-/_/g' )
@@ -194,6 +194,22 @@ _code-mypy:
 	@echo "# Check mypy"
 	@echo "# -------------------------------------------------------------------- #"
 	docker run --rm $$(tty -s && echo "-it" || echo) -v ${PWD}:/data cytopia/mypy --config-file setup.cfg $(SRC)/
+
+
+# -------------------------------------------------------------------------------------------------
+# Test Targets
+# -------------------------------------------------------------------------------------------------
+.PHONY: test
+test:
+	@echo "Check Python package"
+	docker run \
+		--rm \
+		$$(tty -s && echo "-it" || echo) \
+		-v $(PWD):/data \
+		-w /data \
+		python:$(PYTHON_VERSION)-alpine sh -c "\
+			pip install -r requirements.txt \
+			&& ./bin/kusa cmd localhost"
 
 
 # -------------------------------------------------------------------------------------------------
