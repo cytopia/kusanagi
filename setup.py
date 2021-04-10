@@ -11,7 +11,7 @@ with open("requirements.txt", "r") as fp:
 
 setup(
     name="kusanagi",
-    version="0.0.3",
+    version="0.0.4",
     packages=[
         "kusanagi",
         "kusanagi.core",

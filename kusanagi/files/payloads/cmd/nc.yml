@@ -57,8 +57,8 @@ version: 0.0.1
 
 # Payload list
 payloads:
-  - name: tcp-reverse-nc
-    desc: TCP reverse shell with nc command
+  - name: tcp-reverse-nc-e
+    desc: TCP reverse shell with nc (-e) command
     info:
       - "nc is not usually installed - especially with -e argument"
     meta:
@@ -95,6 +95,7 @@ payloads:
             filters:
               shell: bash
               commands: ["nc", "bash"]
+              os: ["linux", "mac"]  # FreeBSD has bash on /usr/local/bin/bash
           - value: /bin/sh
             filters:
               shell: sh
