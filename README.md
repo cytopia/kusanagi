@@ -10,6 +10,31 @@
 [![PyPI - Implementation](https://img.shields.io/pypi/implementation/kusanagi)](https://pypi.org/project/kusanagi/)
 [![PyPI - License](https://img.shields.io/pypi/l/kusanagi)](https://pypi.org/project/kusanagi/)
 
+At its core, it is just a collection of Yaml files that define various *shell commands*,
+*code snippets*, *file specifications* and *obfuscators*. It combines and permutates all of them to generate
+payloads according to someone's need.
+
+**Payloads** are highly searchable and filterable in order
+to generate a *code-*, *file-* or *command* injection with correct binaries for the target architecture
+and removed bad chars that might get filtered/denied by certain mechanisms which are in between you and the target (e.g.: web application firewall).
+Additional **output encoding** can be applied on your generated payloads (See [list of encoders](https://github.com/cytopia/kusanagi/blob/master/kusanagi/core/encoder/__init__.py#L13)).
+
+**Disclaimer:** It does have a *copy-to-clipboard* function to eliminate heavy mouse gestures.
+
+<img src="doc/screenshot01.png" height="300px;" style="height: 300px;" />
+
+
+## :tada: Install
+```bash
+pip install kusanagi
+```
+
+> :exclamation: Requires Python >= 3.6
+
+
+
+## :hourglass: Current state
+
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/linting/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=linting)
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/building/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=building)
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/testing/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=testing)
@@ -21,22 +46,6 @@
 [![Build Status](https://github.com/cytopia/kusanagi/workflows/pydoc/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=pydoc)
 
 
-At its core, it is just a collection of Yaml files that define various *shell commands*,
-*code snippets*, *file specifications* and *obfuscators*. It combines and permutates all of them to generate
-payloads according to someone's need.
-
-**Payloads** are highly searchable and filterable in order
-to generate a *code-*, *file-* or *command* injection with correct binaries for the target architecture
-and removed bad chars that might get filtered/denied by certain mechanisms which are in between you and the target (e.g.: web application firewall).
-
-**Disclaimer:** It does have a *copy-to-clipboard* function to eliminate heavy mouse gestures.
-
-<img src="doc/screenshot01.png" height="300px;" style="height: 300px;" />
-
-
-
-## Current state
-
 `kusanagi` is currently at most an alpha version and in a very early state of development.
 
 Feel free to use it, but expect drastic changes in ui and available command line arguments.
@@ -45,16 +54,21 @@ If you want to support this project, drop me all your payloads and obfuscators y
 
 
 
-## Install
-```bash
-pip install kusanagi
-```
+## :star: Features
 
+You can find current features here:
 
-## Requirements
-
-* Python >= 3.6
-* [requirements.txt](requirements.txt)
+* [ ] Automated Quote escaping
+* [ ] Quote swapping
+* [X] Obfuscation
+* [X] Permutation
+* [X] Badchar elimination
+* [X] Output encoder
+* [X] Copy to clipboard
+* [X] Command injection
+* [ ] Code injection
+* [ ] File injection
+* [ ] BYOY: Bring your own yaml - and have custom payloads
 
 
 
@@ -143,7 +157,49 @@ misc arguments:
 ```
 
 
-## License
+
+
+## :lock: [cytopia](https://github.com/cytopia) sec tools
+
+Below is a list of sec tools and docs I am maintaining.
+
+| Name                 | Category             | Language   | Description |
+|----------------------|----------------------|------------|-------------|
+| **[offsec]**         | Documentation        | Markdown   | Offsec checklist, tools and examples |
+| **[header-fuzz]**    | Enumeration          | Bash       | Fuzz HTTP headers |
+| **[smtp-user-enum]** | Enumeration          | Python 2+3 | SMTP users enumerator |
+| **[urlbuster]**      | Enumeration          | Python 2+3 | Mutable web directory fuzzer |
+| **[pwncat]**         | Pivoting             | Python 2+3 | Cross-platform netcat on steroids |
+| **[kusanagi]**       | Payload Generator    | Python 3   | Bind- and Reverse shell payload generator |
+| **[badchars]**       | Reverse Engineering  | Python 2+3 | Badchar generator |
+| **[fuzza]**          | Reverse Engineering  | Python 2+3 | TCP fuzzing tool |
+| **[docker-dvwa]**    | Playground           | PHP        | DVWA with local priv esc challenges |
+
+[offsec]: https://github.com/cytopia/offsec
+[header-fuzz]: https://github.com/cytopia/header-fuzz
+[smtp-user-enum]: https://github.com/cytopia/smtp-user-enum
+[urlbuster]: https://github.com/cytopia/urlbuster
+[pwncat]: https://github.com/cytopia/pwncat
+[kusanagi]: https://github.com/cytopia/kusanagi
+[badchars]: https://github.com/cytopia/badchars
+[fuzza]: https://github.com/cytopia/fuzza
+[docker-dvwa]: https://github.com/cytopia/docker-dvwa
+
+
+
+## :octocat: Contributing
+
+See **[Contributing guidelines](CONTRIBUTING.md)** to help to improve this project.
+
+
+
+## :exclamation: Disclaimer
+
+This tool may be used for legal purposes only. Users take full responsibility for any actions performed using this tool. The author accepts no liability for damage caused by this tool. If these terms are not acceptable to you, then do not use this tool.
+
+
+
+## :page_facing_up: License
 
 **[MIT License](LICENSE.txt)**
 
