@@ -65,7 +65,7 @@ setup(
         # https://pypi.org/classifiers/
         #
         # How mature is this project
-        "Development Status :: 4 - Beta",
+        "Development Status :: 3 - Alpha",
         # How does it run
         "Environment :: Console",
         # Indicate who your project is intended for
