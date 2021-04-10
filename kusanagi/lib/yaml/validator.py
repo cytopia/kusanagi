@@ -19,7 +19,7 @@ def _validate_invalid_keys(section: str, data: Dict[Any, Any], validator: Dict[A
             if isinstance(data[key], list):
                 for index, value in enumerate(data[key]):
                     _validate_invalid_keys(
-                        section + f"[{key}][{index}]", data[key][index], validator[key]["childs"]
+                        section + f"[{key}][{index}]", value, validator[key]["childs"]
                     )
 
 

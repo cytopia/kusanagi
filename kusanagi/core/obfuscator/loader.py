@@ -2,9 +2,6 @@
 
 from typing import List, Dict, Any
 
-import os
-import pathlib
-
 from .validator import VALIDATOR
 from ...lib.yaml import load as load_yaml
 from ...lib.template import get_template_dir

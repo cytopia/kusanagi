@@ -6,7 +6,8 @@ import sys
 from .defaults import DEF_BIN, DEF_DESC, DEF_VERSION, DEF_AUTHOR, DEF_GITHUB
 from .defaults import DEF_PORT
 from .core.encoder import argparse_encoder_validate
-from .core.encoder import argparse_encoder_list
+
+# from .core.encoder import argparse_encoder_list
 
 
 # class ListEncoderAction(argparse.Action):
@@ -258,10 +259,10 @@ of payload to copy to clipboard.
 
     #
     # TODO:
-    # FIXME: -o/--obfuscate   Run the Fun!
+    # TODO: -o/--obfuscate   Run the Fun!
 
     # TODO:
-    # FIXME: -n/--noob   Turn on noob mode
+    # TODO: -n/--noob   Turn on noob mode
     #
     #
     # -q [no] o <OS>, [<OS>]

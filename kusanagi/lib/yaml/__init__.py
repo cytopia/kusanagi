@@ -1,13 +1,14 @@
 """Module to load and validate a yaml configuration file."""
 
 from typing import Dict, Any
+from pathlib import PurePath
 
 from .loader import _load
 from .validator import _validate_requirements
 from .validator import _validate_invalid_keys
 
 
-def load(path: str, validator: Dict[Any, Any]) -> Dict[Any, Any]:
+def load(path: PurePath, validator: Dict[Any, Any]) -> Dict[Any, Any]:
     """Load yaml file by path and return it as Python dictionary.
 
     Args:

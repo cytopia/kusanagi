@@ -2,9 +2,6 @@
 
 from typing import List, Dict, Any
 
-import os
-import pathlib
-
 from .validator import VALIDATOR
 from ...permutator import permutate_variables
 from ...permutator import obfuscate_payloads
@@ -68,7 +65,7 @@ def _load(placeholders: Dict[str, str]) -> List[DsPayload]:
     return payloads
 
 
-def _get_payload_from_item(item: Dict[str, List]) -> DsPayload:
+def _get_payload_from_item(item: Dict[str, Any]) -> DsPayload:
     """Returns DsPayload data structure from item."""
     filters = DsPayloadFilter(
         item["filters"]["cmd"],

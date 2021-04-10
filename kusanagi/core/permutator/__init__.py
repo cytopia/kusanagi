@@ -123,10 +123,6 @@ def permutate_variables(item: Dict[str, Any]) -> List[Dict[str, Any]]:
 
         # Copy/overwrite filters from variables[].filters
         # into top-level filters for current variable mutation.
-        try:
-            filters = {key: variables[key]["filters"] for key in variables}
-        except KeyError:
-            filters = {}
         for variable in variables:
             if "filters" in variables[variable]:
                 mutation["filters"].update(variables[variable]["filters"])
@@ -150,8 +146,8 @@ def __replace_variables(
     temp = copy.deepcopy(data)
 
     if isinstance(temp, list):
-        for i in range(len(temp)):
-            temp[i] = __replace_variables(temp[i], variables)
+        for i, _ in enumerate(temp):
+            temp[i] = __replace_variables(temp[i], variables)  # type: ignore
         return temp
 
     if isinstance(temp, dict):

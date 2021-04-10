@@ -1,12 +1,13 @@
 """Module to output the payloads on the command line."""
 
 from typing import List, Optional, Any
-from .template.ds.ds_payload import DsPayload
-from .defaults import BADCHARS
-from .core.encoder import encode
-
 import sys
+import re
+
 from termcolor import cprint
+
+from .core.typing.ds_payload import DsPayload
+from .core.encoder import encode
 
 
 # --------------------------------------------------------------------------------------------------
@@ -17,10 +18,10 @@ def output(
 ) -> None:
     """Output payloads based on users choice."""
     if quick:
-        for i in range(len(payloads)):
-            _print_payload(payloads[i], addr, port, encoders, i)
+        for i, _ in enumerate(payloads):
+            _print_payload(payloads[i], encoders, i)
     else:
-        for i in range(len(payloads)):
+        for i, _ in enumerate(payloads):
             _print_payload_verbose(payloads[i], addr, port, encoders, i)
 
 
@@ -50,8 +51,6 @@ class Out:
 
 def _print_payload(
     payload: DsPayload,
-    addr: str,
-    port: str,
     encoders: List[str],
     index: int,
 ) -> None:
@@ -237,51 +236,10 @@ def _print_payload_verbose(
     p.stdout(data, "red")
     p.stderr("")
 
-    # p.stderr(payload.filters.exe, "blue")
-
-    # print("", file=sys.stderr)
-    # print("", file=sys.stderr)
-    # print("-"*80, file=sys.stderr)
-    # print(f"[{index}] {payload.name}", file=sys.stderr)
-    # cprint(f"{index}", "blue", end="", file=sys.stderr)
-    # print("-"*80, file=sys.stderr)
-    # print(f"desc: {payload.desc}", file=sys.stderr)
-
-    # print(f"target: {addr}:{port}", file=sys.stderr)
-
-    # print(f"filters:", file=sys.stderr)
-    # print(f"  exe:        {payload.filters.exe}", file=sys.stderr)
-    # print("  shells:     {}".format(', '.join(payload.filters.shells)), file=sys.stderr)
-    # print("  os:         {}".format(', '.join(payload.filters.os)), file=sys.stderr)
-    # print("  commands:   {}".format(', '.join(payload.filters.commands)), file=sys.stderr)
-    # print(f"  proto:      {payload.filters.proto}", file=sys.stderr)
-    # print(f"  direction:  {payload.filters.direction}", file=sys.stderr)
-    ##print(f"  obfuscated: {payload.filters.obfuscated}", file=sys.stderr)
-
-    # print("badchars: {}".format(_get_badchars(payload.payload)), file=sys.stderr)
-    # print("size: {} bytes".format(len(payload.payload)), file=sys.stderr)
-
-    # print(f"construction:", file=sys.stderr)
-    # for step in payload.original:
-    #    print(f"  - {step}", file=sys.stderr)
-
-    # print(f"output encoders:", file=sys.stderr)
-    # for encoder in encoders:
-    #    print(f"  - {encoder}", file=sys.stderr)
-
-    # cprint("options:", "grey", file=sys.stderr)
-    # cprint(f"  use '-q {index}' or '--query {index}' to only show this payload", "grey", file=sys.stderr)
-    # cprint(f"  use '-c {index}' or '--copy {index}'  to copy payload to clipboard", "grey", file=sys.stderr)
-    # cprint(f"  use '-c'    or '--copy'     to copy last payload to clipboard", "grey", file=sys.stderr)
-
-    # print("", file=sys.stderr)
-    # print(data)
-
 
 def _get_badchars(data: str) -> str:
     """Returns the badchars contained in a string."""
-    chars = []
-    for badchar in BADCHARS:
-        if badchar in data:
-            chars.append(badchar)
-    return "".join(chars)
+    regex = r"[^a-zA-Z0-9\s]"
+    match = re.findall(regex, data)
+    match = sorted(set(match))  # unique and sort
+    return "".join(match)

@@ -11,12 +11,13 @@ with open("requirements.txt", "r") as fp:
 
 setup(
     name="kusanagi",
-    version="0.0.2",
+    version="0.0.3",
     packages=[
         "kusanagi",
         "kusanagi.core",
         "kusanagi.core.compressor",
         "kusanagi.core.encoder",
+        "kusanagi.core.filter",
         "kusanagi.core.obfuscator",
         "kusanagi.core.parser",
         "kusanagi.core.payload",
@@ -24,15 +25,12 @@ setup(
         "kusanagi.core.payload.code",
         "kusanagi.core.payload.file",
         "kusanagi.core.permutator",
+        "kusanagi.core.sorter",
         "kusanagi.core.typing",
         "kusanagi.lib",
         "kusanagi.lib.clipboard",
         "kusanagi.lib.template",
-        "kusanagi.lib.template",
         "kusanagi.lib.yaml",
-        "kusanagi.template",
-        "kusanagi.template.parser",
-        "kusanagi.template.ds",
     ],
     package_data={
         "kusanagi": [

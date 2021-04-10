@@ -8,13 +8,14 @@ import pathlib
 TEMPLATE_DIR = "files"
 
 
-def get_template_dir(dirs: List[str] = []) -> str:
+def get_template_dir(dirs: List[str] = []) -> pathlib.PurePath:
     """Returns absolute path of template dir."""
-    path = pathlib.Path(__file__).parent.absolute()
-    path = path.parent.absolute()
-    path = path.parent.absolute()
-    path = os.path.join(path, TEMPLATE_DIR)
+    path = pathlib.PurePath(__file__)
+    path = path.parent
+    path = path.parent
+    path = path.parent
+    path = path.joinpath(TEMPLATE_DIR)
     # Add specified sub directories (if any)
     for subdir in dirs:
-        path = os.fspath(os.path.join(path, subdir))
+        path = path.joinpath(subdir)
     return path
