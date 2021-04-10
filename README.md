@@ -68,6 +68,10 @@ You can find current features here:
 * [X] Command injection
 * [ ] Code injection
 * [ ] File injection
+* [ ] Payload: Persistence wrapper
+* [X] Payload: reverse shell
+* [ ] Payload: bind shell
+* [ ] Payload: port forwarding
 * [ ] BYOY: Bring your own yaml - and have custom payloads
 
 
