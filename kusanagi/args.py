@@ -9,40 +9,40 @@ from .core.encoder import argparse_encoder_validate
 from .core.encoder import argparse_encoder_list
 
 
-class ListEncoderAction(argparse.Action):
-    """Argument action to list available encoder."""
-
-    def __init__(
-        self,
-        option_strings,
-        dest,
-        const=None,
-        default=None,
-        required=False,
-        help=None,
-        metavar=None,
-    ):
-        super(ListEncoderAction, self).__init__(
-            option_strings=option_strings,
-            dest=dest,
-            nargs=0,
-            const=const,
-            default=default,
-            required=required,
-            help=help,
-        )
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        """Custom action entrypoint."""
-        argparse_encoder_list()
-        sys.exit(0)
-
-    # def __init__(self, option_strings, dest, nargs=None, **kwargs):
-    #     super(ListEncoderAction, self).__init__(option_strings, dest, **kwargs)
-
-    # def __call__(self, parser, namespace, values, option_string=None):
-    #     print('%r %r %r' % (namespace, values, option_string))
-    #     #setattr(namespace, self.dest, values)
+# class ListEncoderAction(argparse.Action):
+#     """Argument action to list available encoder."""
+#
+#     def __init__(
+#         self,
+#         option_strings,
+#         dest,
+#         const=None,
+#         default=None,
+#         required=False,
+#         help=None,
+#         metavar=None,
+#     ):
+#         super(ListEncoderAction, self).__init__(
+#             option_strings=option_strings,
+#             dest=dest,
+#             nargs=0,
+#             const=const,
+#             default=default,
+#             required=required,
+#             help=help,
+#         )
+#
+#     def __call__(self, parser, namespace, values, option_string=None):
+#         """Custom action entrypoint."""
+#         argparse_encoder_list()
+#         sys.exit(0)
+#
+#    # def __init__(self, option_strings, dest, nargs=None, **kwargs):
+#    #     super(ListEncoderAction, self).__init__(option_strings, dest, **kwargs)
+#
+#    # def __call__(self, parser, namespace, values, option_string=None):
+#    #     print('%r %r %r' % (namespace, values, option_string))
+#    #     #setattr(namespace, self.dest, values)
 
 
 def _get_version():
@@ -85,7 +85,6 @@ def get_args() -> argparse.Namespace:
     # --------------------------------------------------------------------------
     payload_parser = parser.add_subparsers(
         metavar="<payload>",
-        required=True,
         dest="payload",
     )
     parser_cmd = payload_parser.add_parser(
