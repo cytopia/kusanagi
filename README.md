@@ -3,6 +3,24 @@
 **TL;DR:** `kusanagi` is a bind- and reverse shell payload generator.
 
 
+[![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI](https://img.shields.io/pypi/v/kusanagi)](https://pypi.org/project/kusanagi/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/kusanagi)](https://pypi.org/project/kusanagi/)
+[![PyPI - Format](https://img.shields.io/pypi/format/kusanagi)](https://pypi.org/project/kusanagi/)
+[![PyPI - Implementation](https://img.shields.io/pypi/implementation/kusanagi)](https://pypi.org/project/kusanagi/)
+[![PyPI - License](https://img.shields.io/pypi/l/kusanagi)](https://pypi.org/project/kusanagi/)
+
+
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/linting/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=linting)
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/building/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=building)
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/testing/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=testing)
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/black/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=black)
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/mypy/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=mypy)
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/pylint/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=pylint)
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/pycode/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=pycode)
+[![Build Status](https://github.com/cytopia/kusanagi/workflows/pydoc/badge.svg)](https://github.com/cytopia/kusanagi/actions?workflow=pydoc)
+
+
 At its core, it is just a collection of Yaml files that define various *shell commands*,
 *code snippets*, *file specifications* and *obfuscators*. It combines and permutates all of them to generate
 payloads according to someone's need.
@@ -31,6 +49,12 @@ If you want to support this project, drop me all your payloads and obfuscators y
 ```bash
 pip install kusanagi
 ```
+
+
+## Requirements
+
+* Python >= 3.6
+* [requirements.txt](requirements.txt)
 
 
 

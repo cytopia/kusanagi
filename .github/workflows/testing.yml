@@ -1,0 +1,36 @@
+---
+
+###
+### Lints all generic and json files in the whole git repository
+###
+
+name: testing
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+    tags:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: False
+      matrix:
+        version:
+          - '3.6'
+          - '3.7'
+          - '3.8'
+          - '3.9'
+
+    name: "[${{ matrix.version }}]"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+
+      - name: Build source distribution
+        run: |
+          make test PYTHON_VERSION=${version}
+        env:
+          version: ${{ matrix.version }}

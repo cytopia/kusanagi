@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import pathlib
+
+# Get absolute path of root of this git directory
+path_here = pathlib.Path(__file__).parent.absolute()
+path_root = os.path.join(path_here, os.pardir)
+sys.path.append(path_root)
+
+# Import our package
+import kusanagi
+
+
+# Run main function
+kusanagi.main()

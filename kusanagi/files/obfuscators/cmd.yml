@@ -1,0 +1,138 @@
+---
+
+# This file defines all kinds of obfuscators to run against shell commands.
+# Shells could be any of bash, sh, zsh, csh, cmd, PowerShell, etc...
+#
+# The purpose of command obfuscator is:
+#   1. to eliminate any kind of badchars used by the payload (or use a different set of chars)
+#   2. hide/obfuscate the code to bypass filtering software
+#
+# -------------------------------------------------------------------------------------------------
+# Available variables:
+#   {PAYLOAD}                # The payload string that will be replaced in here
+#                            # so that the obfuscator can use it.
+#                            # NOTE: Can only be used within payload key
+#
+# -------------------------------------------------------------------------------------------------
+# Required root keys:
+#   type: str                # Obfuscator type
+#   version: str             # Current version (bumps on changes)
+#   encoders: List[dict]     # List of used encoder function
+#
+# -------------------------------------------------------------------------------------------------
+# Required item keys:
+#   name: str                # display name
+#   desc: str                # short description
+#   filters: dict            # <see below>
+#   payload: str             # the obfuscator code (The {PAYLOAD} variable must be used here)
+#   meta: dict               # <see below>
+#
+# -------------------------------------------------------------------------------------------------
+# Required item filters:
+#   shells: List[str]        # For what underlying shells does this obfuscator code work?
+#                            # NOTE: This is independent of the actual payload code.
+#                            # Shell filter will be an intersectional set of
+#                            # obfuscator and payload.
+#
+#   commands: List[str]      # Required shell commands for the obfuscator
+#                            # NOTE: This will be summed up with the required shell
+#                            # commands used by the payload
+#
+#   obfuscator: List[str]    # List of used obfuscator functions
+#                            # NOTE: this is only used for filtering / output display
+#
+# -------------------------------------------------------------------------------------------------
+# Required meta keys:
+#   authors: List[str]       # List of authors who have worked on it
+#   created: str             # Initial creation date
+#   modified: str            # Modification date
+#   version: str             # obfuscator version (bumps on change)
+
+
+# Meta definitions
+type: cmd
+version: 0.0.1
+
+
+# Obfuscator list
+obfuscators:
+  # [1] bash -c base64
+  - name: "bash -c base64"
+    desc: "bash -c \"$(echo <base64-payload>|base64 -d)\""
+    meta:
+      authors: ["cytopia"]
+      created: "2021-04-08"
+      modified: "2021-04-08"
+      version: 0.0.1
+    filters:
+      shells: ["bash"]
+      commands: ["bash", "echo", "base64"]
+      encoders: ["base64pad"]
+    payload: bash -c "$(echo <FUN:0:base64pad>__PAYLOAD__</FUN:0:base64pad>|base64 -d)"
+
+#  # TODO: check if single quotes also work
+#  - name: "bash -c base64"
+#    desc: "bash -c \"`echo <base64-payload>|base64 -d`\""
+#    filters:
+#      commands: ["bash", "echo", "base64"]
+#      obfuscator: ["base64pad"]
+#    payload: bash -c "`echo <FUN:0:base64pad>{PAYLOAD}</FUN:0:base64pad>|base64 -d`"
+#
+#  # [2] bash -c base64^2
+#  - name: "bash -c base64^2"
+#    desc: "bash -c \"$(echo <base64^2-payload>|base64|base64 -d)\" # to avoid '+' char"
+#    filters:
+#      commands: ["bash", "echo", "base64"]
+#      obfuscator: ["2xbase64pad"]
+#    payload: bash -c "$(echo <FUN:0:2xbase64pad>{PAYLOAD}</FUN:0:2xbase64pad>|base64 -d)"
+#
+#  - name: "bash -c base64^2"
+#    desc: "bash -c \"`echo <base64^2-payload>|base64|base64 -d`\" # to avoid '+' char"
+#    filters:
+#      commands: ["bash", "echo", "base64"]
+#      obfuscator: ["2xbase64pad"]
+#    payload: bash -c "`echo <FUN:0:2xbase64pad>{PAYLOAD}</FUN:0:2xbase64pad>|base64 -d`"
+#
+#  # [3] eval base64
+#  - name: "eval base64"
+#    desc: "eval $(echo <base64-payload>|base64 -d)"
+#    filters:
+#      commands: ["eval", "echo", "base64"]
+#      obfuscator: ["base64pad"]
+#    payload: eval $(echo <FUN:0:base64pad>{PAYLOAD}</FUN:0:base64pad>|base64 -d)
+#  - name: "eval base64"
+#    filters:
+#      commands: ["eval", "base64"]
+#      obfuscator: ["base64pad"]
+#    payload: eval `echo <FUN:0:base64pad>{PAYLOAD}</FUN:0:base64pad>|base64 -d`
+#
+#  # [4] eval base64 base64
+#  - name: "eval base64 base64"
+#    filters:
+#      commands: ["eval", "base64"]
+#      obfuscator: ["2xbase64pad"]
+#    payload: eval $(echo <FUN:0:2xbase64pad>{PAYLOAD}</FUN:0:2xbase64pad>|base64 -d|base64 -d)
+#  - name: "eval base64 base64"
+#    filters:
+#      commands: ["eval", "base64"]
+#      obfuscator: ["2xbase64pad"]
+#    payload: eval `echo <FUN:0:2xbase64pad>{PAYLOAD}</FUN:0:2xbase64pad>|base64 -d|base64 -d1`
+#
+#  # [5] printf hex bash
+#  - name: "printf hex bash"
+#    filters:
+#      commands: ["printf", "bash"]
+#      obfuscator: ["hex"]
+#    payload: printf '<FUN:0:hex>{PAYLOAD}</FUN:0:hex>'|bash
+#  - name: "printf hex bash"
+#    filters:
+#      commands: ["printf", "bash"]
+#      obfuscator: ["hex"]
+#    payload: printf "<FUN:0:hex>{PAYLOAD}</FUN:0:hex>"|bash
+#
+#  # [6] printf hex-escaped bash
+#  - name: "printf hex-escaped bash"
+#    filters:
+#      commands: ["printf", "bash"]
+#      obfuscator: ["hexesc"]
+#    payload: printf <FUN:0:hexesc>{PAYLOAD}</FUN:0:hexesc>|bash
