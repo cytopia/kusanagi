@@ -209,7 +209,21 @@ test:
 		-w /data \
 		python:$(PYTHON_VERSION)-alpine sh -c "\
 			pip install -r requirements.txt \
-			&& ./bin/kusa cmd localhost"
+			&& ./bin/kusa --help \
+			&& ./bin/kusa cmd --help \
+			&& ./bin/kusa cmd localhost \
+			&& ./bin/kusa cmd localhost 4445 \
+			&& ./bin/kusa cmd localhost -e nc \
+			&& ./bin/kusa cmd localhost -s sh \
+			&& ./bin/kusa cmd localhost -b '/' \
+			&& ./bin/kusa cmd localhost -o bsd \
+			&& ./bin/kusa cmd localhost -o linux \
+			&& ./bin/kusa cmd localhost -o mac \
+			&& ./bin/kusa cmd localhost -o windows \
+			&& ./bin/kusa cmd localhost -m 100 \
+			&& ./bin/kusa cmd localhost --enc url \
+			&& ./bin/kusa cmd localhost --enc url hex \
+			"
 
 
 # -------------------------------------------------------------------------------------------------
