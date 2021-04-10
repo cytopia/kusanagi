@@ -30,7 +30,6 @@ setup(
         "kusanagi.lib.template",
         "kusanagi.lib.template",
         "kusanagi.lib.yaml",
-        "kusanagi.sorter",
         "kusanagi.template",
         "kusanagi.template.parser",
         "kusanagi.template.ds",
