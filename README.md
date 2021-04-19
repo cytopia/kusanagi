@@ -1,6 +1,6 @@
 # Kusanagi - 草薙
 
-**TL;DR:** `kusanagi` is a bind- and reverse shell payload generator.
+**TL;DR:** `kusanagi` is a major, bind- and reverse shell payload generator.
 
 
 [![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -61,12 +61,12 @@ You can find current features here:
 * [ ] Automated Quote escaping
 * [ ] Quote swapping
 * [X] Obfuscation
-* [X] Permutation
+* [ ] Permutation
 * [X] Badchar elimination
 * [X] Output encoder
 * [X] Copy to clipboard
 * [X] Command injection
-* [ ] Code injection
+* [X] Code injection
 * [ ] File injection
 * [ ] Payload: Persistence wrapper
 * [X] Payload: reverse shell
@@ -78,7 +78,11 @@ You can find current features here:
 
 ## Usage
 
-#### General
+### General
+
+Kusanagi is separated into different usage section. To start off, you will have to choose between a shell command for command injection (`cmd`), a code snippet from a programming language for code injection (`code`) and a generated file for various exploits injected into it (`file`).
+
+
 ```bash
 usage: kusa <payload> [options] addr [host]
        kusa <payload> -h
@@ -98,7 +102,12 @@ misc arguments:
   -h, --help     Show this help message and exit
 ```
 
-#### cmd
+### cmd
+
+Options for command injection/execution module.
+
+<details>
+  <summary><strong>Click here to expand usage</strong></summary>
 ```bash
 usage: kusa cmd [options] addr [port]
        kusa cmd -h, --help
@@ -130,7 +139,7 @@ query arguments:
                         that prohibits certain characters.
                         Default: Ignore badchars
 
-  -o {bsd,linux,mac,windows}, --os {bsd,linux,mac,windows}
+  -o {bsd,linux,mac,solaris,windows}, --os {bsd,linux,mac,solaris,windows}
                         Only fetch payloads which work on a specific operating system.
                         Default: fetch for all OS.
 
@@ -139,8 +148,11 @@ query arguments:
 
 
 mutate arguments:
+  --obf                 Run the fun. This switch will apply obfuscator to all
+                        payloads to get a different set of badchars.
+
   --enc name [name ...]
-                        Encode shell code with one or more encoders.
+                        Encode the output with one or more encoders.
                         When encoding multiple times, pay attention to the
                         order of specifying encoders.
                         Note that any filtering (-b, -o, etc) is not done on the
@@ -159,6 +171,81 @@ helper arguments:
 misc arguments:
   -h, --help            Show this help message and exit
 ```
+</details>
+
+
+### code
+
+Options for code injection/execution module.
+
+<details>
+  <summary><strong>Click here to expand usage</strong></summary>
+```bash
+usage: kusa code [options] addr [port]
+       kusa code -h, --help
+
+positional arguments:
+  addr                  Address to listen or connect to.
+
+  port                  (Optional) Port to listen or connect to
+                        Default: 4444
+
+
+query arguments:
+  -l LANG [LANG ...], --lang LANG [LANG ...]
+                        The payload language to query.
+                        (e.g.: perl, python, php, etc)
+                        Default: do not filter language.
+
+  -s SHELL [SHELL ...], --shell SHELL [SHELL ...]
+                        Shell on which the command (specified via -e)
+                        will be executed. Some payloads use crazy output
+                        redirections or pipes that will only work on certain
+                        underlying shells.
+                        (e.g.: dash, sh, bash, zsh, cmd, PowerShell)
+                        Default: do not filter by underlying shell.
+
+  -b BADCHARS, --badchars BADCHARS
+                        Exclude any payloads that contain the specified bad chars.
+                        This comes in handy if you encounter a Web Application Firewall
+                        that prohibits certain characters.
+                        Default: Ignore badchars
+
+  -o {bsd,linux,mac,solaris,windows}, --os {bsd,linux,mac,solaris,windows}
+                        Only fetch payloads which work on a specific operating system.
+                        Default: fetch for all OS.
+
+  -m bytes, --maxlen bytes
+                        Exclude any payloads exceeding the specified max length.
+
+
+mutate arguments:
+  --obf                 Run the fun. This switch will apply obfuscator to all
+                        payloads to get a different set of badchars.
+
+  --enc name [name ...]
+                        Encode the output with one or more encoders.
+                        When encoding multiple times, pay attention to the
+                        order of specifying encoders.
+                        Note that any filtering (-b, -o, etc) is not done on the
+                        encoded payload. Filtering is done before.
+                        To view available encoders, use --list-encoders.
+
+helper arguments:
+  -q, --quick           Show quick payload results (less detail).
+
+  -c [index], --copy [index]
+                        Copy last shown payload to clipboard or specify index
+                        of payload to copy to clipboard.
+                        (indices are shown in square brackets next to payload)
+
+
+misc arguments:
+  -h, --help            Show this help message and exit
+
+```
+</details>
+
 
 
 

@@ -5,7 +5,7 @@ import sys
 
 from .defaults import DEF_BIN, DEF_DESC, DEF_VERSION, DEF_AUTHOR, DEF_GITHUB
 from .defaults import DEF_PORT
-from .core.encoder import argparse_encoder_validate
+from .core.output.encoder import argparse_encoder_validate
 
 # from .core.encoder import argparse_encoder_list
 
@@ -44,6 +44,192 @@ from .core.encoder import argparse_encoder_validate
 #    # def __call__(self, parser, namespace, values, option_string=None):
 #    #     print('%r %r %r' % (namespace, values, option_string))
 #    #     #setattr(namespace, self.dest, values)
+
+
+def args_addr(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create addr positional argumenmt."""
+    argument_group.add_argument(
+        "addr",
+        type=str,
+        help="""Address to listen or connect to.
+
+""",
+    )
+
+
+def args_port(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create port positional argumenmt."""
+    argument_group.add_argument(
+        "port",
+        nargs="?",
+        type=int,
+        default=DEF_PORT,
+        help="""(Optional) Port to listen or connect to
+Default: %(port)i
+
+"""
+        % ({"port": DEF_PORT}),
+    )
+
+
+def args_lang(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create -l/--lang argumenmt."""
+    argument_group.add_argument(
+        "-l",
+        "--lang",
+        type=str,
+        nargs="+",
+        default=[],
+        help="""The payload language to query.
+(e.g.: perl, python, php, etc)
+Default: do not filter language.
+
+""",
+    )
+
+
+def args_exe(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create -e/--exe argumenmt."""
+    argument_group.add_argument(
+        "-e",
+        "--exe",
+        type=str,
+        nargs="+",
+        default="",
+        help="""Command that will execute the payload
+(e.g.: perl, python, php, nc, sh, bash, cmd, PowerShell, etc)
+Default: do not filter by underlying command.
+
+""",
+    )
+
+
+def args_shell(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create -s/--shell argumenmt."""
+    argument_group.add_argument(
+        "-s",
+        "--shell",
+        type=str,
+        nargs="+",
+        default=[],
+        help="""Shell on which the command (specified via -e)
+will be executed. Some payloads use crazy output
+redirections or pipes that will only work on certain
+underlying shells.
+(e.g.: dash, sh, bash, zsh, cmd, PowerShell)
+Default: do not filter by underlying shell.
+
+""",
+    )
+
+
+def args_badchars(  # pylint: disable=protected-access
+    argument_group: argparse._ArgumentGroup,
+) -> None:
+    """Create -b/--badchars argumenmt."""
+    argument_group.add_argument(
+        "-b",
+        "--badchars",
+        type=str,
+        default="",
+        help="""Exclude any payloads that contain the specified bad chars.
+This comes in handy if you encounter a Web Application Firewall
+that prohibits certain characters.
+Default: Ignore badchars
+
+""",
+    )
+
+
+def args_os(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create -o/--os argumenmt."""
+    argument_group.add_argument(
+        "-o",
+        "--os",
+        type=str,
+        choices=["bsd", "linux", "mac", "solaris", "windows"],
+        default="",
+        help="""Only fetch payloads which work on a specific operating system.
+Default: fetch for all OS.
+
+""",
+    )
+
+
+def args_maxlen(  # pylint: disable=protected-access
+    argument_group: argparse._ArgumentGroup,
+) -> None:
+    """Create -m/--maxlen argumenmt."""
+    argument_group.add_argument(
+        "-m",
+        "--maxlen",
+        type=int,
+        metavar="bytes",
+        default="0",
+        help="""Exclude any payloads exceeding the specified max length.
+
+""",
+    )
+
+
+def args_obfuscate(  # pylint: disable=protected-access
+    argument_group: argparse._ArgumentGroup,
+) -> None:
+    """Create --obf argumenmt."""
+    argument_group.add_argument(
+        "--obf",
+        action="store_true",
+        help="""Run the fun. This switch will apply obfuscator to all
+payloads to get a different set of badchars.
+
+""",
+    )
+
+
+def args_enc(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create --enc argumenmt."""
+    argument_group.add_argument(
+        "--enc",
+        nargs="+",
+        default=[],
+        metavar="name",
+        type=argparse_encoder_validate,
+        help="""Encode the output with one or more encoders.
+When encoding multiple times, pay attention to the
+order of specifying encoders.
+Note that any filtering (-b, -o, etc) is not done on the
+encoded payload. Filtering is done before.
+To view available encoders, use --list-encoders.""",
+    )
+
+
+def args_quick(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create -q/--quick argumenmt."""
+    argument_group.add_argument(
+        "-q",
+        "--quick",
+        action="store_true",
+        help="""Show quick payload results (less detail).
+
+""",
+    )
+
+
+def args_copy(argument_group: argparse._ArgumentGroup) -> None:  # pylint: disable=protected-access
+    """Create -c/--copy argumenmt."""
+    argument_group.add_argument(
+        "-c",
+        "--copy",
+        nargs="?",
+        metavar="index",
+        type=int,
+        default="-1",
+        help="""Copy last shown payload to clipboard or specify index
+of payload to copy to clipboard.
+(indices are shown in square brackets next to payload)
+
+""",
+    )
 
 
 def _get_version():
@@ -106,7 +292,6 @@ def get_args() -> argparse.Namespace:
        %(prog)s code -h, --help"""
         % ({"prog": DEF_BIN}),
     )
-    parser_code.add_argument("-h", "--help", action="help", help="Show this help message and exit")
 
     parser_file = payload_parser.add_parser(
         "file",
@@ -117,7 +302,6 @@ def get_args() -> argparse.Namespace:
        %(prog)s file -h, --help"""
         % ({"prog": DEF_BIN}),
     )
-    parser_file.add_argument("-h", "--help", action="help", help="Show this help message and exit")
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -126,136 +310,100 @@ def get_args() -> argparse.Namespace:
         sys.exit(1)
 
     # --------------------------------------------------------------------------
-    # Command parser: positional
+    # Positional
     # --------------------------------------------------------------------------
     cmd_positional = parser_cmd.add_argument_group("positional arguments")
-    cmd_positional.add_argument(
-        "addr",
-        type=str,
-        help="""Address to listen or connect to.
+    code_positional = parser_code.add_argument_group("positional arguments")
+    file_positional = parser_file.add_argument_group("positional arguments")
 
-""",
-    )
-    cmd_positional.add_argument(
-        "port",
-        nargs="?",
-        type=int,
-        default=DEF_PORT,
-        help="""(Optional) Port to listen or connect to
-Default: %(port)i
+    # positional addr
+    args_addr(cmd_positional)
+    args_addr(code_positional)
+    args_addr(file_positional)
 
-"""
-        % ({"port": DEF_PORT}),
-    )
+    # positional [port]
+    args_port(cmd_positional)
+    args_port(code_positional)
+    args_port(file_positional)
 
     # --------------------------------------------------------------------------
-    # Command parser: query arguments
+    # Query arguments
     # --------------------------------------------------------------------------
     cmd_query = parser_cmd.add_argument_group("query arguments")
-    cmd_query.add_argument(
-        "-e",
-        "--exe",
-        type=str,
-        nargs="+",
-        default="",
-        help="""Command that will execute the payload
-(e.g.: perl, python, php, nc, sh, bash, cmd, PowerShell, etc)
-Default: do not filter by underlying command.
+    code_query = parser_code.add_argument_group("query arguments")
+    file_query = parser_file.add_argument_group("query arguments")
 
-""",
-    )
-    cmd_query.add_argument(
-        "-s",
-        "--shell",
-        type=str,
-        nargs="+",
-        default=[],
-        help="""Shell on which the command (specified via -e)
-will be executed. Some payloads use crazy output
-redirections or pipes that will only work on certain
-underlying shells.
-(e.g.: dash, sh, bash, zsh, cmd, PowerShell)
-Default: do not filter by underlying shell.
+    # -l/--lang
+    args_lang(code_query)
 
-""",
-    )
-    cmd_query.add_argument(
-        "-b",
-        "--badchars",
-        type=str,
-        default="",
-        help="""Exclude any payloads that contain the specified bad chars.
-This comes in handy if you encounter a Web Application Firewall
-that prohibits certain characters.
-Default: Ignore badchars
+    # -e/--exe
+    args_exe(cmd_query)
+    args_exe(file_query)
 
-""",
-    )
-    cmd_query.add_argument(
-        "-o",
-        "--os",
-        type=str,
-        choices=["bsd", "linux", "mac", "windows"],
-        default="",
-        help="""Only fetch payloads which work on a specific operating system.
-Default: fetch for all OS.
+    # -s/--shell
+    args_shell(cmd_query)
+    args_shell(code_query)
+    args_shell(file_query)
 
-""",
-    )
-    cmd_query.add_argument(
-        "-m",
-        "--maxlen",
-        type=int,
-        metavar="bytes",
-        default="0",
-        help="""Exclude any payloads exceeding the specified max length.
+    # -b/--badchars
+    args_badchars(cmd_query)
+    args_badchars(code_query)
+    args_badchars(file_query)
 
-""",
-    )
+    # -o/--os
+    args_os(cmd_query)
+    args_os(code_query)
+    args_os(file_query)
+
+    # -m/--maxlen
+    args_maxlen(cmd_query)
+    args_maxlen(code_query)
+    args_maxlen(file_query)
 
     # --------------------------------------------------------------------------
-    # Command parser: mutate arguments
+    # Mutate arguments
     # --------------------------------------------------------------------------
     cmd_mutate = parser_cmd.add_argument_group("mutate arguments")
-    cmd_mutate.add_argument(
-        "--enc",
-        nargs="+",
-        default=[],
-        metavar="name",
-        type=argparse_encoder_validate,
-        help="""Encode shell code with one or more encoders.
-When encoding multiple times, pay attention to the
-order of specifying encoders.
-Note that any filtering (-b, -o, etc) is not done on the
-encoded payload. Filtering is done before.
-To view available encoders, use --list-encoders.""",
-    )
+    code_mutate = parser_code.add_argument_group("mutate arguments")
+    file_mutate = parser_file.add_argument_group("mutate arguments")
+
+    # --obf
+    args_obfuscate(code_mutate)
+    args_obfuscate(cmd_mutate)
+
+    # --enc
+    args_enc(cmd_mutate)
+    args_enc(code_mutate)
+    args_enc(file_mutate)
 
     # --------------------------------------------------------------------------
-    # Command parser: helper arguments
+    # Helper arguments
     # --------------------------------------------------------------------------
     cmd_helper = parser_cmd.add_argument_group("helper arguments")
-    cmd_helper.add_argument(
-        "-q",
-        "--quick",
-        action="store_true",
-        help="""Show quick payload results (less detail).
+    code_helper = parser_code.add_argument_group("helper arguments")
+    file_helper = parser_file.add_argument_group("helper arguments")
 
-""",
-    )
-    cmd_helper.add_argument(
-        "-c",
-        "--copy",
-        nargs="?",
-        metavar="index",
-        type=int,
-        default="-1",
-        help="""Copy last shown payload to clipboard or specify index
-of payload to copy to clipboard.
-(indices are shown in square brackets next to payload)
+    # -q/--quick
+    args_quick(cmd_helper)
+    args_quick(code_helper)
+    args_quick(file_helper)
 
-""",
-    )
+    # -c/--copy
+    args_copy(cmd_helper)
+    args_copy(code_helper)
+    args_copy(file_helper)
+
+    # --------------------------------------------------------------------------
+    # Misc arguments
+    # --------------------------------------------------------------------------
+    cmd_misc = parser_cmd.add_argument_group("misc arguments")
+    code_misc = parser_code.add_argument_group("misc arguments")
+    file_misc = parser_file.add_argument_group("misc arguments")
+
+    # -h/--help
+    cmd_misc.add_argument("-h", "--help", action="help", help="Show this help message and exit")
+    code_misc.add_argument("-h", "--help", action="help", help="Show this help message and exit")
+    file_misc.add_argument("-h", "--help", action="help", help="Show this help message and exit")
 
     #
     # TODO:
@@ -276,12 +424,6 @@ of payload to copy to clipboard.
     # -o/--obfuscate
     # -e/--encode
     # -n/--noob
-
-    # --------------------------------------------------------------------------
-    # Command parser: misc arguments
-    # --------------------------------------------------------------------------
-    cmd_misc = parser_cmd.add_argument_group("misc arguments")
-    cmd_misc.add_argument("-h", "--help", action="help", help="Show this help message and exit")
 
     #  -c/--copy [num] (by default last one)
     # mutate = parser.add_argument_group("mutate arguments")
@@ -424,4 +566,5 @@ of payload to copy to clipboard.
     #    )
     #
     # Return arguments
-    return parser.parse_args()
+    parsed = parser.parse_args()
+    return parsed

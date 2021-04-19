@@ -2,64 +2,84 @@
 
 from typing import Callable, Any
 
-import os
 import sys
-import time
-import timeit
-import pathlib
 
 from .args import *
-from .lib.clipboard import copy_to_clipboard
-from .output import output
 
-from .core.payload.cmd import get_payloads
-from .core.filter import *
-from .core.sorter import *
+from .core.output import output_payloads
+from .core.payload import filter_items
+from .core.payload import sort_items
+
+from .core.payload import code
+from .core.payload import cmd
 
 
 def main() -> None:
     """Run main entrypoint."""
     cmd_args = get_args()
 
-    if cmd_args.payload in ["file", "code"]:
-        print(f"{cmd_args.payload} method not yet implemented")
-        sys.exit(0)
+    print(cmd_args)
 
-    # Retrieve payloads
-    payloads = get_payloads(cmd_args.addr, str(cmd_args.port))
+    output_options = {
+        "quick": cmd_args.quick,
+        "copy": cmd_args.copy,
+        "info": None,
+    }
 
-    # Filter payloads
-    payloads = filter_executables(payloads, cmd_args.exe)
-    payloads = filter_shells(payloads, cmd_args.shell)
-    payloads = filter_os(payloads, cmd_args.os)
-    payloads = filter_badchars(payloads, cmd_args.badchars)
-    payloads = filter_maxlen(payloads, cmd_args.maxlen)
+    # TODO: Make this an option via command line to select bind-/reverse shell
+    payload = {
+        "payload": cmd_args.payload,
+        "type": "revshell",
+        "revshell": {
+            "addr": cmd_args.addr,
+            "port": str(cmd_args.port),
+        },
+    }
 
-    # Sort payloads
-    payloads = sort_by_length(payloads)
+    # Output code
+    if cmd_args.payload == "code":
+        filters = {
+            "lang": cmd_args.lang,
+            "shells": cmd_args.shell,
+            "os": cmd_args.os,
+            "badchars": cmd_args.badchars,
+            "maxlen": cmd_args.maxlen,
+            "obfuscate": cmd_args.obf,
+        }
 
-    # [OUTPUT] If no copy was specified, just output the payloads
-    if cmd_args.copy == -1:
-        output(payloads, cmd_args.addr, str(cmd_args.port), cmd_args.enc, cmd_args.quick)
-        sys.exit(0)
+        items = code.get_items(
+            "revshell",
+            cmd_args.obf,
+            {
+                "addr": cmd_args.addr,
+                "port": str(cmd_args.port),
+            },
+        )
+        items = filter_items(items, filters)
+        items = sort_items(items, "default")
+        output_payloads(items, payload, cmd_args.enc, output_options)
 
-    # [COPY] Copy payload to clipboard
-    index = cmd_args.copy
-    if cmd_args.copy is None:
-        # Copy last element to clipboard
-        index = -1
-    try:
-        copy_to_clipboard(payloads[index].payload)
-    except IndexError:
-        print(f"[ERROR] payload with index {index} does not exist", file=sys.stderr)
-        sys.exit(1)
-    except OSError as error:
-        print(f"[ERROR] No clipboard mechanism available on your system\n{error}", file=sys.stderr)
-        sys.exit(1)
-    else:
-        payload = payloads[index]
-        output([payload], cmd_args.addr, str(cmd_args.port), cmd_args.enc, True)
-        print("copied", file=sys.stderr)
+    # Output commands
+    if cmd_args.payload == "cmd":
+        filters = {
+            "exe": cmd_args.exe,
+            "shells": cmd_args.shell,
+            "os": cmd_args.os,
+            "badchars": cmd_args.badchars,
+            "maxlen": cmd_args.maxlen,
+            "obfuscate": cmd_args.obf,
+        }
+        items = cmd.get_items(
+            "revshell",
+            cmd_args.obf,
+            {
+                "addr": cmd_args.addr,
+                "port": str(cmd_args.port),
+            },
+        )
+        items = filter_items(items, filters)
+        items = sort_items(items, "default")
+        output_payloads(items, payload, cmd_args.enc, output_options)
 
 
 if __name__ == "__main__":

