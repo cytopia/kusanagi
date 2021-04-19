@@ -52,34 +52,37 @@ def get_revshells(addr: str, port: str, obfuscated: bool) -> List[Dict[str, Any]
                 #         # Append obfuscated item
                 #         items.append(_get_obfuscator_item(cmd, temp))
                 # Create obfuscated item
+                cmd["builder"] = [cmd["payload"], obfuscator["payload"]]
                 temp = parse([obfuscator], {"__CMD__": cmd["payload"]})[0]
                 # Append obfuscated item
                 items.append(_get_obfuscator_item(cmd, temp))
     return items
 
 
-def _get_revshell_item(cmd: Dict[str, Any], obfuscated: bool) -> Dict[str, Any]:
+def _get_revshell_item(item: Dict[str, Any], obfuscated: bool) -> Dict[str, Any]:
     """Get an item."""
+    builder = item["builder"] if "builder" in item else []
     data = {
-        "name": cmd["name"],
-        "desc": cmd["desc"],
-        "info": cmd["info"],
-        "rating": cmd["rating"],
+        "name": item["name"],
+        "desc": item["desc"],
+        "info": item["info"],
+        "rating": item["rating"],
         "cmd": {
             "obfuscated": obfuscated,
-            "executable": cmd["cmd"]["executable"],
+            "executable": item["cmd"]["executable"],
             "requires": {
-                "commands": cmd["cmd"]["requires"]["commands"],
-                "shell_env": cmd["cmd"]["requires"]["shell_env"],
-                "os": cmd["cmd"]["requires"]["os"],
+                "commands": item["cmd"]["requires"]["commands"],
+                "shell_env": item["cmd"]["requires"]["shell_env"],
+                "os": item["cmd"]["requires"]["os"],
             },
         },
         "revshell": {
-            "proto": cmd["revshell"]["proto"],
-            "shell": cmd["revshell"]["shell"],
-            "command": cmd["revshell"]["command"],
+            "proto": item["revshell"]["proto"],
+            "shell": item["revshell"]["shell"],
+            "command": item["revshell"]["command"],
         },
-        "payload": cmd["payload"],
+        "builder": builder,
+        "payload": item["payload"],
     }
     return data
 

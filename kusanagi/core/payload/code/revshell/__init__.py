@@ -51,36 +51,39 @@ def get_revshells(addr: str, port: str, obfuscated: bool) -> List[Dict[str, Any]
                     obfu_v = obfuscator["code"]["requires"]["version"]
                     if intersect(code_v, obfu_v) or (not code_v and not obfu_v):
                         # Create obfuscated item
+                        code["builder"] = [code["payload"], obfuscator["payload"]]
                         temp = parse([obfuscator], {"__CODE__": code["payload"]})[0]
                         # Append obfuscated item
                         items.append(_get_obfuscator_item(code, temp))
     return items
 
 
-def _get_revshell_item(code: Dict[str, Any], obfuscated: bool) -> Dict[str, Any]:
+def _get_revshell_item(item: Dict[str, Any], obfuscated: bool) -> Dict[str, Any]:
     """Get an item."""
+    builder = item["builder"] if "builder" in item else []
     data = {
-        "name": code["name"],
-        "desc": code["desc"],
-        "info": code["info"],
-        "rating": code["rating"],
+        "name": item["name"],
+        "desc": item["desc"],
+        "info": item["info"],
+        "rating": item["rating"],
         "code": {
             "obfuscated": obfuscated,
-            "language": code["code"]["language"],
+            "language": item["code"]["language"],
             "requires": {
-                "version": code["code"]["requires"]["version"],
-                "commands": code["code"]["requires"]["commands"],
-                "functions": code["code"]["requires"]["functions"],
-                "modules": code["code"]["requires"]["modules"],
-                "os": code["code"]["requires"]["os"],
+                "version": item["code"]["requires"]["version"],
+                "commands": item["code"]["requires"]["commands"],
+                "functions": item["code"]["requires"]["functions"],
+                "modules": item["code"]["requires"]["modules"],
+                "os": item["code"]["requires"]["os"],
             },
         },
         "revshell": {
-            "proto": code["revshell"]["proto"],
-            "shell": code["revshell"]["shell"],
-            "command": code["revshell"]["command"],
+            "proto": item["revshell"]["proto"],
+            "shell": item["revshell"]["shell"],
+            "command": item["revshell"]["command"],
         },
-        "payload": code["payload"],
+        "builder": builder,
+        "payload": item["payload"],
     }
     return data
 

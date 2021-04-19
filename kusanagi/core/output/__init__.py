@@ -47,6 +47,7 @@ def output_payloads(
         output_revshell_info(p, items[i], payload)
         output_target_requirements(p, items[i], payload)
         output_inject_requirements(p, items[i])
+        output_build_requirements(p, items[i])
         output_help(p, i)
         output_encoders(p, items[i], encoders)
         output_payload(p, items[i], encoders)
@@ -251,17 +252,17 @@ def output_inject_requirements(p: Printer, item: Dict[str, Any]) -> None:
     p.stderr("  badchars:   ", end="")
     p.stderr(_get_badchars(item["payload"]), "blue")
 
-    # # obfuscator
-    # p.stderr("encoders: ", end="")
-    # total = len(payload.filters.encoders)
-    # if not total:
-    #     p.stderr("")
-    # for i in range(total):
-    #     p.stderr(f"{payload.filters.encoders[i]}", "blue", end="")
-    #     if i < total-1:
-    #         p.stderr(", ", end="")
-    #     else:
-    #         p.stderr("")
+
+def output_build_requirements(p: Printer, item: Dict[str, Any]) -> None:
+    """Output how the payload has been assembled."""
+    if not item["builder"]:
+        return
+
+    p.stderr("")
+    p.stderr("ASSEMBLING", "magenta")
+    for i, step in enumerate(item["builder"]):
+        p.stderr(f"  {i+1}. ", end="")
+        p.stderr(step, "blue")
 
 
 def output_help(p: Printer, index: int) -> None:
