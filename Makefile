@@ -7,13 +7,13 @@ endif
 # Can be changed
 # -------------------------------------------------------------------------------------------------
 # This can be adjusted
-PYTHON_VERSION = 3.7
+PYTHON_VERSION = 3.6
 
 
 # -------------------------------------------------------------------------------------------------
 # Default configuration
 # -------------------------------------------------------------------------------------------------
-.PHONY: help lint code test autoformat build clean docker-build docker-rebuild docker-tag
+.PHONY: help lint code test autoformat build clean
 SHELL := /bin/bash
 
 NAME = $(shell grep -E '^[[:space:]]*name' setup.py  | awk -F'"' '{print $$2}' | sed 's/-/_/g' )
@@ -23,12 +23,6 @@ SRC  = kusanagi
 FL_VERSION = 0.4
 FL_IGNORES = .git/,.github/,$(NAME).egg-info,.mypy_cache/,$(ENV)
 
-# Docker variables
-DIR = .
-FILE = Dockerfile
-IMAGE = $(shell echo "cytopia/$(NAME)" | sed 's|_|-|g' )
-TAG = latest
-
 
 # -------------------------------------------------------------------------------------------------
 # Default Target
@@ -36,13 +30,10 @@ TAG = latest
 help:
 	@echo "lint              Lint repository files"
 	@echo "code              Run code linters: black, mypy, pylint, pydocstyle, pycodestyle"
+	@echo "test              Run integration tests"
 	@echo "autoformat        Autoformat code according to Python Black standard"
 	@echo "build             Build Python package"
 	@echo "clean             Clean current Python package build"
-	@echo "docker-build      Build Docker image"
-	@echo "docker-rebuild    Rebuild Docker image (without cache)"
-	@echo "docker-tag        Re-tag Docker image"
-
 
 
 # -------------------------------------------------------------------------------------------------
@@ -297,6 +288,7 @@ venv:
 	@echo source $(VENV)/bin/activate
 	@echo python3 setup.py install
 
+
 # -------------------------------------------------------------------------------------------------
 # Publish Targets
 # -------------------------------------------------------------------------------------------------
@@ -309,39 +301,6 @@ deploy: _build-check_python_package
 		python:$(PYTHON_VERSION)-slim \
 		sh -c "pip install twine \
 		&& twine upload dist/*"
-
-
-# -------------------------------------------------------------------------------------------------
-# Docker Targets
-# -------------------------------------------------------------------------------------------------
-docker-build:
-	docker build \
-		--label "org.opencontainers.image.created"="$$(date --rfc-3339=s)" \
-		--label "org.opencontainers.image.revision"="$$(git rev-parse HEAD)" \
-		--label "org.opencontainers.image.version"="${TAG}" \
-		--build-arg VERSION=$(TAG) \
-		-t $(IMAGE) \
-		-f $(DIR)/$(FILE) $(DIR)
-
-docker-rebuild:
-	docker build \
-		--no-cache \
-		--label "org.opencontainers.image.created"="$$(date --rfc-3339=s)" \
-		--label "org.opencontainers.image.revision"="$$(git rev-parse HEAD)" \
-		--label "org.opencontainers.image.version"="${TAG}" \
-		--build-arg VERSION=$(TAG) \
-		-t $(IMAGE) \
-		-f $(DIR)/$(FILE) $(DIR)
-
-docker-tag:
-	docker tag $(IMAGE) $(IMAGE):$(TAG)
-
-docker-login:
-	yes | docker login --username $(USERNAME) --password $(PASSWORD)
-
-docker-push:
-	@$(MAKE) tag TAG=$(TAG)
-	docker push $(IMAGE):$(TAG)
 
 
 # -------------------------------------------------------------------------------------------------

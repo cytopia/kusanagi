@@ -1,0 +1,217 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: cmd
+  type: obfuscator
+  version: 0.0.1
+
+
+###
+### Items
+###
+items:
+
+  ###
+  ### [1] bash -c base64 (GNU)
+  ###
+  - name: "bash -c base64 (GNU)"
+    desc: "bash -c \"$(echo <base64-payload>|base64 -d)\""
+    info:
+      - Using GNU version of base64 (Linux only)
+    meta:
+      author: cytopia
+      editors: ["cytopia"]
+      created: "2021-04-08"
+      modified: "2021-04-08"
+      version: 0.0.1
+    cmd:
+      requires:
+        shell_env: ["bash"]
+        commands: ["bash", "echo", "base64"]
+        os: ["linux"]
+      overwrites:
+        # As the payload will be wrapped into bash -c by this obfuscator,
+        # we're overwriting the 'shell_env" (so it is not an intersection),
+        # as this command can now be run from within any shell (magic is inside bash -c '...')
+        shell_env: ["bash", "csh", "dash", "ksh", "sh", "tcsh", "zsh"]
+    payload: bash -c "$(echo <FUN:0:base64pad>__CMD__</FUN:0:base64pad>|base64 -d)"
+
+  - name: "bash -c base64 (GNU)"
+    desc: "bash -c \"`echo <base64-payload>|base64 -d`\""
+    info:
+      - Using GNU version of base64
+    meta:
+      author: cytopia
+      editors: ["cytopia"]
+      created: "2021-04-08"
+      modified: "2021-04-08"
+      version: 0.0.1
+    cmd:
+      requires:
+        shell_env: ["bash"]
+        commands: ["bash", "echo", "base64"]
+        os: ["linux"]
+      overwrites:
+        # As the payload will be wrapped into bash -c by this obfuscator,
+        # we're overwriting the 'shell_env" (so it is not an intersection),
+        # as this command can now be run from within any shell (magic is inside bash -c '...')
+        shell_env: ["bash", "csh", "dash", "ksh", "sh", "tcsh", "zsh"]
+    payload: bash -c "`echo <FUN:0:base64pad>__CMD__</FUN:0:base64pad>|base64 -d`"
+
+
+  ###
+  ### [2] bash -c base64^2
+  ###
+  - name: "bash -c base64^2"
+    desc: "bash -c \"$(echo <base64^2-payload>|base64|base64 -d)\" # to avoid '+' char"
+    info:
+      - Using GNU version of base64 (Linux only)
+    meta:
+      author: cytopia
+      editors: ["cytopia"]
+      created: "2021-04-08"
+      modified: "2021-04-08"
+      version: 0.0.1
+    cmd:
+      requires:
+        shell_env: ["bash"]
+        commands: ["bash", "echo", "base64"]
+        os: ["linux"]
+      overwrites:
+        # As the payload will be wrapped into bash -c by this obfuscator,
+        # we're overwriting the 'shell_env" (so it is not an intersection),
+        # as this command can now be run from within any shell (magic is inside bash -c '...')
+        shell_env: ["bash", "csh", "dash", "ksh", "sh", "tcsh", "zsh"]
+    payload: bash -c "$(echo <FUN:0:2xbase64pad>__CMD__</FUN:0:2xbase64pad>|base64 -d)"
+
+  - name: "bash -c base64^2"
+    desc: "bash -c \"`echo <base64^2-payload>|base64|base64 -d`\" # to avoid '+' char"
+    info:
+      - Using GNU version of base64 (Linux only)
+    meta:
+      author: cytopia
+      editors: ["cytopia"]
+      created: "2021-04-08"
+      modified: "2021-04-08"
+      version: 0.0.1
+    cmd:
+      requires:
+        shell_env: ["bash"]
+        commands: ["bash", "echo", "base64"]
+        os: ["linux"]
+      overwrites:
+        # As the payload will be wrapped into bash -c by this obfuscator,
+        # we're overwriting the 'shell_env" (so it is not an intersection),
+        # as this command can now be run from within any shell (magic is inside bash -c '...')
+        shell_env: ["bash", "csh", "dash", "ksh", "sh", "tcsh", "zsh"]
+    payload: bash -c "`echo <FUN:0:2xbase64pad>__CMD__</FUN:0:2xbase64pad>|base64 -d`"
+
+
+#  ###
+#  ### [3] eval base64
+#  ###
+#  - name: "eval base64"
+#    desc: "eval $(echo <base64-payload>|base64 -d)"
+#    meta:
+#      authors: ["cytopia"]
+#      created: "2021-04-08"
+#      modified: "2021-04-08"
+#      version: 0.0.1
+#    filters:
+#      shells: ["bash"]
+#      commands: ["eval", "echo", "base64"]
+#      encoders: ["base64pad"]
+#    payload: eval $(echo <FUN:0:base64pad>__CMD__</FUN:0:base64pad>|base64 -d)
+#
+#  - name: "eval base64"
+#    desc: eval base64 padded code to eliminate = char
+#    meta:
+#      authors: ["cytopia"]
+#      created: "2021-04-08"
+#      modified: "2021-04-08"
+#      version: 0.0.1
+#    filters:
+#      shells: ["bash"]
+#      commands: ["eval", "echo", "base64"]
+#      encoders: ["base64pad"]
+#    payload: eval `echo <FUN:0:base64pad>__CMD__</FUN:0:base64pad>|base64 -d`
+#
+#
+#  ###
+#  ### [4] eval base64 base64
+#  ###
+#  - name: "eval base64 base64"
+#    desc: eval double base64 code to eliminate + char
+#    meta:
+#      authors: ["cytopia"]
+#      created: "2021-04-08"
+#      modified: "2021-04-08"
+#      version: 0.0.1
+#    filters:
+#      shells: ["bash"]
+#      commands: ["eval", "echo", "base64"]
+#      encoders: ["2xbase64pad"]
+#    payload: eval $(echo <FUN:0:2xbase64pad>__CMD__</FUN:0:2xbase64pad>|base64 -d|base64 -d)
+#
+#  - name: "eval base64 base64"
+#    desc: eval double base64 code to eliminate + char
+#    meta:
+#      authors: ["cytopia"]
+#      created: "2021-04-08"
+#      modified: "2021-04-08"
+#      version: 0.0.1
+#    filters:
+#      shells: ["bash"]
+#      commands: ["eval", "echo", "base64"]
+#      encoders: ["2xbase64pad"]
+#    payload: eval `echo <FUN:0:2xbase64pad>__CMD__</FUN:0:2xbase64pad>|base64 -d|base64 -d1`
+#
+#
+#  ###
+#  ### [5] printf hex bash
+#  ###
+#  - name: "printf hex bash"
+#    desc: hex quoted code
+#    meta:
+#      authors: ["cytopia"]
+#      created: "2021-04-08"
+#      modified: "2021-04-08"
+#      version: 0.0.1
+#    filters:
+#      shells: ["bash"]
+#      commands: ["printf", "bash"]
+#      encoders: ["hex"]
+#    payload: printf '<FUN:0:hex>__CMD__</FUN:0:hex>'|bash
+#
+#  - name: "printf hex bash"
+#    desc: hex quoted code
+#    meta:
+#      authors: ["cytopia"]
+#      created: "2021-04-08"
+#      modified: "2021-04-08"
+#      version: 0.0.1
+#    filters:
+#      shells: ["bash"]
+#      commands: ["printf", "bash"]
+#      encoders: ["hex"]
+#    payload: printf "<FUN:0:hex>__CMD__</FUN:0:hex>"|bash
+#
+#
+#  ###
+#  ### [6] printf hex-escaped bash
+#  ###
+#  - name: "printf hex-escaped bash"
+#    desc: hex escaped code
+#    meta:
+#      authors: ["cytopia"]
+#      created: "2021-04-08"
+#      modified: "2021-04-08"
+#      version: 0.0.1
+#    filters:
+#      shells: ["bash"]
+#      commands: ["printf", "bash"]
+#      encoders: ["hexesc"]
+#    payload: printf <FUN:0:hexesc>__CMD__</FUN:0:hexesc>|bash

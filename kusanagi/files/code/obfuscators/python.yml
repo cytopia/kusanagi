@@ -1,0 +1,45 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: code
+  type: obfuscator
+  version: 0.0.1
+
+
+###
+### Items
+###
+items:
+
+  - name: python-eval-base64
+    desc: desc
+    info: []
+    code:
+      language: python
+      requires:
+        version: [2, 3]
+        commands: []
+        functions: ["exec", "base64decode"]
+        modules: ["base64"]
+        os: ["bsd", "linux", "mac", "windows"]
+    payload: |
+      import base64;
+      exec(base64.b64decode("<FUN:0:base64pad>__CODE__</FUN:0:base64pad>"))
+
+
+  - name: python-exec-hex
+    desc: desc
+    info: []
+    code:
+      language: python
+      requires:
+        version: [3]
+        commands: []
+        functions: ["exec", "base64decode"]
+        modules: ["base64"]
+        os: ["bsd", "linux", "mac", "windows"]
+    payload: |
+      exec(b"<FUN:0:hex>__CODE__</FUN:0:hex>".decode("utf-8"))

