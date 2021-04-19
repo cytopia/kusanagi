@@ -102,12 +102,12 @@ misc arguments:
   -h, --help     Show this help message and exit
 ```
 
-### cmd
+### Injectable commands (`cmd`)
 
 Options for command injection/execution module.
 
 <details>
-  <summary><strong>Click here to expand usage</strong></summary>
+  <summary><strong>Click here to expand full usage</strong></summary>
 
 ```bash
 usage: kusa cmd [options] addr [port]
@@ -176,12 +176,49 @@ misc arguments:
 </details>
 
 
-### code
+#### Examples
+```bash
+# List reverse shells connecting to 10.0.0.1 (port 4444 by default)
+kusa cmd 10.0.0.1
+```
+```bash
+# List reverse shells connecting to 10.0.0.1:1337
+kusa cmd 10.0.0.1 1337
+```
+
+```bash
+# Copy last reverse shell payload to clipboard
+kusa cmd 10.0.0.1 -c
+```
+```bash
+# Copy reverse shell with index 2 to clipboard
+kusa cmd 10.0.0.1 -c 2
+```
+```bash
+# URL encode reverse shell
+kusa cmd 10.0.0.1 --enc url
+```
+```bash
+# Base64 encode and then url encode reverse shell
+kusa cmd 10.0.0.1 --enc base64 url
+```
+```bash
+# Obfuscate payloads
+kusa cmd 10.0.0.1 --obf
+```
+```bash
+# Obfuscated and filter away '/' and '$' characters in payload
+kusa cmd 10.0.0.1 --obf -b '/$'
+```
+
+
+
+### Injectable code (`code`)
 
 Options for code injection/execution module.
 
 <details>
-  <summary><strong>Click here to expand usage</strong></summary>
+  <summary><strong>Click here to expand full usage</strong></summary>
 
 ```bash
 usage: kusa code [options] addr [port]
@@ -250,6 +287,45 @@ misc arguments:
 
 </details>
 
+
+#### Examples
+```bash
+# List reverse shells connecting to 10.0.0.1 (port 4444 by default)
+kusa code 10.0.0.1
+```
+```bash
+# List reverse shells connecting to 10.0.0.1:1337
+kusa code 10.0.0.1 1337
+```
+
+```bash
+# Copy last reverse shell payload to clipboard
+kusa code 10.0.0.1 -c
+```
+```bash
+# Copy reverse shell with index 2 to clipboard
+kusa code 10.0.0.1 -c 2
+```
+```bash
+# Select only PHP code (-l/--language)
+kusa code 10.0.0.1 -l php
+```
+```bash
+# URL encode reverse shell
+kusa code 10.0.0.1 --enc url
+```
+```bash
+# Base64 encode and then url encode reverse shell
+kusa code 10.0.0.1 --enc base64 url
+```
+```bash
+# Obfuscate payloads
+kusa code 10.0.0.1 --obf
+```
+```bash
+# Obfuscated and filter away '/' and '$' characters in payload
+kusa code 10.0.0.1 --obf -b '/$'
+```
 
 
 
