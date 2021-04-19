@@ -1,6 +1,6 @@
 # Kusanagi - 草薙
 
-**TL;DR:** `kusanagi` is a bind- and reverse shell payload generator.
+**TL;DR:** `kusanagi` is a major, bind- and reverse shell payload generator.
 
 
 [![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)

