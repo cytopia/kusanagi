@@ -115,7 +115,7 @@ VALIDATOR = {
                                 "childs": {},
                             },
                         },
-                    }
+                    },
                 },
             },
             "payload": {
