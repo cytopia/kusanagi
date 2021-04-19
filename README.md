@@ -108,6 +108,7 @@ Options for command injection/execution module.
 
 <details>
   <summary><strong>Click here to expand usage</strong></summary>
+
 ```bash
 usage: kusa cmd [options] addr [port]
        kusa cmd -h, --help
@@ -171,6 +172,7 @@ helper arguments:
 misc arguments:
   -h, --help            Show this help message and exit
 ```
+
 </details>
 
 
@@ -180,6 +182,7 @@ Options for code injection/execution module.
 
 <details>
   <summary><strong>Click here to expand usage</strong></summary>
+
 ```bash
 usage: kusa code [options] addr [port]
        kusa code -h, --help
@@ -244,6 +247,7 @@ misc arguments:
   -h, --help            Show this help message and exit
 
 ```
+
 </details>
 
 
